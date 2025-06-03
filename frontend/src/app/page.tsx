@@ -61,7 +61,7 @@ const Home = () => {
     setInput(event.target.value);
   };
   return (
-    <div>
+    <div className="ml-[50px]">
       <Stepper
         nextStep={nextStep}
         backStep={backstep}
