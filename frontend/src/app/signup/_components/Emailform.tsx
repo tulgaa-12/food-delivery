@@ -71,7 +71,8 @@ export const Emailform = ({ nextStep, backStep }: all) => {
             <Button
               className="bg-[gray]"
               disabled={isButtonDisabled}
-              type="submit">
+              type="submit"
+            >
               Let's Go
             </Button>
           </div>
@@ -87,7 +88,7 @@ export const Emailform = ({ nextStep, backStep }: all) => {
       <div className="  flex-[5] w-full mt-[50px] ">
         <img
           src="/5.jpg"
-          className="w-[856px] h-full rounded-lg object-cover"
+          className="w-[856px] h-full rounded-lg object-cover 2xl:h-[904px]"
         />
       </div>
     </div>
