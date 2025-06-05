@@ -7,7 +7,7 @@ const databaseconnect = async () => {
     await mongoose.connect(
       "mongodb+srv://e7016307:EqokLBME8isgHtsS@delivery.8433om6.mongodb.net/fooddelivery"
     );
-    console.log("Suc");
+    console.log("Success");
   } catch (errors) {
     console.log(errors);
   }
@@ -49,7 +49,6 @@ app.put("/addput", async (req:Request, res:Response) => {
 })
 
 app.delete("/minus", async (req:Request,res:Response) => {
-  const {email} = req.body
   const min = await UserModel.findOneAndDelete(
     {email: "second@gmail.com"},
   

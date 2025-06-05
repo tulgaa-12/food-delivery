@@ -44,8 +44,8 @@ export const Passwordform = ({ backStep }: AllProps) => {
 
   const [show, setShow] = useState(false);
   return (
-    <div className="flex flex-row items-center justify-center gap-15">
-      <div className="w-[416px] flex flex-col gap-10 ">
+    <div className="flex flex-row items-center justify-center  ">
+      <div className="  flex-1/5 w-[416px] flex flex-col gap-10 2xl:ml-[300px] ">
         <Button
           className="w-[36px] bg-white text-[#18181B] outline-none focus:ring-2 focus:ring-pink-500"
           onClick={backStep}
@@ -53,7 +53,7 @@ export const Passwordform = ({ backStep }: AllProps) => {
           <ChevronLeft />
         </Button>
 
-        <div className="flex flex-col">
+        <div className="flex flex-col w-[416px]">
           <h3 className="text-[24px] font-semibold">
             Create a strong password
           </h3>
@@ -63,7 +63,7 @@ export const Passwordform = ({ backStep }: AllProps) => {
         </div>
 
         <form onSubmit={formik.handleSubmit}>
-          <div className="flex flex-col gap-5">
+          <div className="flex flex-col gap-5 w-[416px]">
             <Input
               type="password"
               name="password"
@@ -111,19 +111,18 @@ export const Passwordform = ({ backStep }: AllProps) => {
           </div>
         </form>
 
-        <div className="flex flex-row justify-center gap-2">
+        <div className="flex flex-row justify-center gap-2 w-[416px]">
           <p className="text-[16px] text-[#71717A] font-normal">
             Already have an account?
           </p>
           <p className="text-[16px] text-[#2563EB] cursor-pointer">Log in</p>
         </div>
       </div>
-
-      <div className="flex-[5] w-full mt-[50px] 2xl:">
+      <div className="flex-2/5 w-full mt-[10px] h-full mt-[180px] mb-[100px] mr-[10px]  ">
         <img
           src="/5.jpg"
           alt="signup visual"
-          className="w-[856px] h-full rounded-lg object-cover  2xl:h-[904px]"
+          className="  rounded-lg object-cover h-full  "
         />
       </div>
     </div>
