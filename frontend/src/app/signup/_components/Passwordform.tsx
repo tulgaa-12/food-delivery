@@ -41,19 +41,19 @@ export const Passwordform = ({ backStep }: AllProps) => {
     !formik.values.confirmPassword ||
     !!formik.errors.password ||
     !!formik.errors.confirmPassword;
+  const [showPassword, setShowPassword] = useState(false);
 
-  const [show, setShow] = useState(false);
   return (
-    <div className="flex flex-row items-center justify-center  ">
-      <div className="  flex-1/5 w-[416px] flex flex-col gap-10 2xl:ml-[300px] ">
+    <div className="flex flex-row items-center justify-center ">
+      <div className="basis-[40%] max-w-[416px] flex flex-col gap-10 2xl:ml-[300px] pr-[50px]">
         <Button
           className="w-[36px] bg-white text-[#18181B] outline-none focus:ring-2 focus:ring-pink-500"
           onClick={backStep}
-        >
+          type="button">
           <ChevronLeft />
         </Button>
 
-        <div className="flex flex-col w-[416px]">
+        <div className="flex flex-col">
           <h3 className="text-[24px] font-semibold">
             Create a strong password
           </h3>
@@ -63,10 +63,11 @@ export const Passwordform = ({ backStep }: AllProps) => {
         </div>
 
         <form onSubmit={formik.handleSubmit}>
-          <div className="flex flex-col gap-5 w-[416px]">
+          <div className="flex flex-col gap-5">
             <Input
-              type="password"
+              id="password"
               name="password"
+              type={showPassword ? "text" : "password"}
               placeholder="Password"
               className="h-[36px]"
               value={formik.values.password}
@@ -80,8 +81,9 @@ export const Passwordform = ({ backStep }: AllProps) => {
             )}
 
             <Input
-              type="password"
+              id="confirmPassword"
               name="confirmPassword"
+              type={showPassword ? "text" : "password"}
               placeholder="Confirm Password"
               className="h-[36px]"
               value={formik.values.confirmPassword}
@@ -95,34 +97,39 @@ export const Passwordform = ({ backStep }: AllProps) => {
                 </div>
               )}
 
-            <div className="flex flex-row gap-3  ">
-              <Label htmlFor="password" className="mt-2">
-                <Checkbox />
+            <div className="flex items-center gap-2">
+              <Checkbox
+                id="showPassword"
+                checked={showPassword}
+                onCheckedChange={() => setShowPassword(!showPassword)}
+              />
+              <Label htmlFor="showPassword" className="text-sm">
                 Show password
               </Label>
             </div>
+
             <Button
-              className="bg-[gray]"
+              className="bg-gray-500 text-white"
               type="submit"
-              disabled={isButtonDisabled}
-            >
+              disabled={isButtonDisabled}>
               Let's Go
             </Button>
           </div>
         </form>
 
-        <div className="flex flex-row justify-center gap-2 w-[416px]">
+        <div className="flex flex-row justify-center gap-2">
           <p className="text-[16px] text-[#71717A] font-normal">
             Already have an account?
           </p>
           <p className="text-[16px] text-[#2563EB] cursor-pointer">Log in</p>
         </div>
       </div>
-      <div className="flex-2/5 w-full mt-[10px] h-full mt-[180px] mb-[100px] mr-[10px]  ">
+
+      <div className="basis-[60%] mt-[180px] mb-[100px] mr-[10px] h-full">
         <img
           src="/5.jpg"
           alt="signup visual"
-          className="  rounded-lg object-cover h-full  "
+          className="rounded-lg object-cover h-full w-full"
         />
       </div>
     </div>
