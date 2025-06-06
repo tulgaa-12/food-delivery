@@ -1,7 +1,8 @@
 import express, { Request, Response } from "express";
 import { Schema, model } from "mongoose";
 import mongoose from "mongoose";
-
+import bcrypt from "bcrypt"
+import cors from "cors"
 const databaseconnect = async () => {
   try {
     await mongoose.connect(
@@ -23,38 +24,48 @@ const Users = new Schema({
 const UserModel = model("Users", Users);
 
 const app = express();
+app.use(cors())
 app.use(express.json());
 
 databaseconnect();
 
-app.get("/add", async (req: Request, res: Response) => {
-  const user = await UserModel.find();
-  res.send(Users);
-});
-
-app.post("/adduser", async (req: Request, res: Response) => {
-  const { email, password } = req.body;
-  const result = await UserModel.create({ email: email, password: password });
-  res.send(result);
-});
-
-app.put("/addput", async (req:Request, res:Response) => {
-  const {email,password, next } = req.body
-  const user = await UserModel.findOneAndUpdate(
-    {email } ,
-    {email:next.email, password:next.password},
-    {new:true}
-  )
-  res.send(user)
+app.get("/",async (req:Request,res:Response) => {
+  res.send({message: "hello"})
 })
 
-app.delete("/minus", async (req:Request,res:Response) => {
-  const min = await UserModel.findOneAndDelete(
-    {email: "second@gmail.com"},
-  
-    
-  )
-  res.send(min)
+app.post('/signup', async (req:Request,res:Response) => {
+  const {email,password} = req.body
+
+  const isEmailExisted = await UserModel.findOne({email})
+
+  if(!isEmailExisted) {
+    const hashePassword = await bcrypt.hashSync(password,10)
+    await UserModel.create({email,password})
+    res.send({message: "Successfully reqistered"})
+  }
+
+  res.status(400).send({message: "User already existed"})
+})
+
+app.post("/login", async (req:Request, res:Response) => {
+  const {email, password} = req.body
+  const isEmailExisted = await UserModel.findOne({email})
+
+  if(!isEmailExisted){
+    res.status(400).send({message:"User doesn't existed"})
+    return
+  }else{
+    const hashePassword = await bcrypt.compareSync(
+      password, isEmailExisted.password!
+    )  
+  if(hashePassword){
+    res.send({message: "Succesfully logged in"})
+    return
+  }else{
+    res.send({message:"Wrong password , try again", token:"123"})
+    return
+  }
+  }
 })
 
 app.listen(8000, () => {

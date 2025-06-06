@@ -8,6 +8,9 @@ import * as Yup from "yup";
 import { Label } from "@/components/ui/label";
 import { useState } from "react";
 import { Checkbox } from "@/components/ui/checkbox";
+import axios from "axios";
+import { useRouter } from "next/navigation";
+
 const validationSchema = Yup.object({
   password: Yup.string()
     .required("Password shardlaga")
@@ -26,14 +29,25 @@ type AllProps = {
 };
 
 export const Passwordform = ({ backStep }: AllProps) => {
+  const router = useRouter();
   const formik = useFormik({
     initialValues: {
       password: "",
       confirmPassword: "",
     },
     validationSchema,
-    onSubmit: (values) => {
-      console.log("Form submit", values);
+    onSubmit: async (values) => {
+      try {
+        const response = await axios.post("https://localhost:8000/signup", {
+          password: values.password,
+        });
+        if (response.data.message === "User already existed") {
+          alert("asd");
+        }
+        router.push("/");
+      } catch (errors) {
+        console.log(errors, "error");
+      }
     },
   });
   const isButtonDisabled =
@@ -44,12 +58,13 @@ export const Passwordform = ({ backStep }: AllProps) => {
   const [showPassword, setShowPassword] = useState(false);
 
   return (
-    <div className="flex flex-row items-center justify-center ">
+    <div className="flex flex-row items-center justify-center gap-30 ">
       <div className="basis-[40%] max-w-[416px] flex flex-col gap-10 2xl:ml-[300px] pr-[50px]">
         <Button
           className="w-[36px] bg-white text-[#18181B] outline-none focus:ring-2 focus:ring-pink-500"
           onClick={backStep}
-          type="button">
+          type="button"
+        >
           <ChevronLeft />
         </Button>
 
@@ -111,7 +126,8 @@ export const Passwordform = ({ backStep }: AllProps) => {
             <Button
               className="bg-gray-500 text-white"
               type="submit"
-              disabled={isButtonDisabled}>
+              disabled={isButtonDisabled}
+            >
               Let's Go
             </Button>
           </div>
@@ -125,7 +141,7 @@ export const Passwordform = ({ backStep }: AllProps) => {
         </div>
       </div>
 
-      <div className="basis-[60%] mt-[180px] mb-[100px] mr-[10px] h-full">
+      <div className="basis-[60%] mt-[140px] mb-[120px]  h-full">
         <img
           src="/5.jpg"
           alt="signup visual"

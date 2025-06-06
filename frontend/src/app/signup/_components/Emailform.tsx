@@ -5,6 +5,8 @@ import { ArrowLeft, ArrowRight, ChevronLeft } from "lucide-react";
 import Image from "next/image";
 import { useFormik } from "formik";
 import * as Yup from "yup";
+import axios from "axios";
+import { useRouter } from "next/navigation";
 
 const validtionschema = Yup.object({
   email: Yup.string()
@@ -22,13 +24,25 @@ type all = {
   container: object;
 };
 export const Emailform = ({ nextStep, backStep }: all) => {
+  const router = useRouter();
   const formik = useFormik({
     initialValues: {
       email: "",
     },
     validationSchema: validtionschema,
-    onSubmit: (values) => {
-      console.log("form submit", values);
+    onSubmit: async (values) => {
+      try {
+        const response = await axios.post("https://localhost:8000/email", {
+          email: values.email,
+        });
+        console.log(response.data.message, "response");
+        if (response.data.message === "User already existed") {
+          alert("asd");
+        }
+        router.push("/");
+      } catch (errors) {
+        console.log(errors, "error");
+      }
       nextStep();
     },
   });
