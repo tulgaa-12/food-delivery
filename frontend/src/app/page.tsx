@@ -7,6 +7,7 @@ import { useFormik } from "formik";
 import * as Yup from "yup";
 import { Emailform } from "./signup/_components/Emailform";
 import { Passwordform } from "./signup/_components/Passwordform";
+
 import { useState } from "react";
 
 // const validtionschema = Yup.object({
@@ -22,30 +23,30 @@ import { useState } from "react";
 //     ),
 // });
 
+//   const formik = useFormik({
+//     initialValues: {
+//       email: "",
+//     },
+//     validationSchema: validtionschema,
+//     onSubmit: (values) => {
+//       console.log("form submit", values);
+//     },
+//   });
+
+//   const emailInputprops = {
+//     name: "email",
+//     value: formik.values.email,
+//     onChange: formik.handleChange,
+//   };
+
+//   const isButtonDisbled = !formik.errors.email;
+
 const Home = () => {
-  //   const formik = useFormik({
-  //     initialValues: {
-  //       email: "",
-  //     },
-  //     validationSchema: validtionschema,
-  //     onSubmit: (values) => {
-  //       console.log("form submit", values);
-  //     },
-  //   });
-
-  //   const emailInputprops = {
-  //     name: "email",
-  //     value: formik.values.email,
-  //     onChange: formik.handleChange,
-  //   };
-
-  //   const isButtonDisbled = !formik.errors.email;
-
   const components = [Emailform, Passwordform];
   const [step, setStep] = useState(0);
   const Stepper = components[step];
   const [input, setInput] = useState("");
-  const [container, Setcontainer] = useState({
+  const [container, setContainer] = useState({
     email: "",
     password: "",
     confirm: "",
@@ -56,17 +57,14 @@ const Home = () => {
   const backstep = () => {
     setStep((prev) => prev - 1);
   };
-
-  const inputHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setInput(event.target.value);
-  };
+  console.log(components, "end abina");
   return (
     <div className="ml-[50px] 2xl:flex 2xl:justify-center ">
       <Stepper
         nextStep={nextStep}
         backStep={backstep}
-        inputHandler={inputHandler}
         container={container}
+        setContainer={setContainer}
       />
     </div>
   );

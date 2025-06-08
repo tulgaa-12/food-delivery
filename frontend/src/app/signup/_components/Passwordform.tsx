@@ -6,7 +6,7 @@ import { ChevronLeft } from "lucide-react";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { Label } from "@/components/ui/label";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Checkbox } from "@/components/ui/checkbox";
 import axios from "axios";
 import { useRouter } from "next/navigation";
@@ -26,9 +26,25 @@ const validationSchema = Yup.object({
 
 type AllProps = {
   backStep: () => void;
+  container: {
+    email: string;
+    password: string;
+    confirm: string;
+  };
+  setContainer: React.Dispatch<
+    React.SetStateAction<{
+      email: string;
+      password: string;
+      confirm: string;
+    }>
+  >;
 };
 
-export const Passwordform = ({ backStep }: AllProps) => {
+export const Passwordform = ({
+  backStep,
+  container,
+  setContainer,
+}: AllProps) => {
   const router = useRouter();
   const formik = useFormik({
     initialValues: {
@@ -37,19 +53,37 @@ export const Passwordform = ({ backStep }: AllProps) => {
     },
     validationSchema,
     onSubmit: async (values) => {
+      console.log("sending", values.password);
+
       try {
-        const response = await axios.post("https://localhost:8000/signup", {
+        setContainer((prev) => ({
+          ...prev,
           password: values.password,
+          confirm: values.confirmPassword,
+        }));
+
+        const response = await axios.post("http://localhost:8000/signup", {
+          password: values.password,
+          email: container.email,
         });
-        if (response.data.message === "User already existed") {
-          alert("asd");
-        }
+
+        console.log(response, "end bainshuu dee");
+        console.log("received email from container:", container.email);
         router.push("/");
-      } catch (errors) {
-        console.log(errors, "error");
+      } catch (error: any) {
+        if (error.response?.data?.message === "User already existed") {
+          formik.setErrors({ password: "User already exists" });
+        } else {
+          console.log("Signup error:", error);
+        }
       }
     },
   });
+
+  useEffect(() => {
+    console.log("container.email:", container.email);
+  }, [container.email]);
+
   const isButtonDisabled =
     !formik.values.password ||
     !formik.values.confirmPassword ||
@@ -63,8 +97,7 @@ export const Passwordform = ({ backStep }: AllProps) => {
         <Button
           className="w-[36px] bg-white text-[#18181B] outline-none focus:ring-2 focus:ring-pink-500"
           onClick={backStep}
-          type="button"
-        >
+          type="button">
           <ChevronLeft />
         </Button>
 
@@ -126,8 +159,7 @@ export const Passwordform = ({ backStep }: AllProps) => {
             <Button
               className="bg-gray-500 text-white"
               type="submit"
-              disabled={isButtonDisabled}
-            >
+              disabled={isButtonDisabled}>
               Let's Go
             </Button>
           </div>
@@ -151,3 +183,19 @@ export const Passwordform = ({ backStep }: AllProps) => {
     </div>
   );
 };
+
+//  onSubmit: async (values) => {
+//       try {
+//         const response = await axios.post("http://localhost:8000/signup", {
+//           password: values.password,
+//         });
+//         if (response.data.message === "User already existed") {
+//           formik.setErrors({ password: "User already exists" });
+//           return;
+//         }
+//         router.push("/");
+//       } catch (errors) {
+//         console.log(errors, "error");
+//       }
+//     },
+//   });

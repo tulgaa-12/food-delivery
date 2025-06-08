@@ -6,44 +6,57 @@ import Image from "next/image";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import axios from "axios";
-import { useRouter } from "next/navigation";
 
 const validtionschema = Yup.object({
   email: Yup.string()
     .email("email format buruu bn")
     .required("email shardlagatai")
-    .test("email", (value) => {
+    .test("email", "email format buruu bn", (value) => {
       const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
-      return emailRegex.test(value);
+      return emailRegex.test(value || "");
     }),
 });
 type all = {
   nextStep: () => void;
-  backStep: () => void;
-  inputHandler: (event: React.ChangeEvent<HTMLInputElement>) => void;
-  container: object;
+  container: {
+    email: string;
+    password: string;
+    confirm: string;
+  };
+  setContainer: React.Dispatch<
+    React.SetStateAction<{
+      email: string;
+      password: string;
+      confirm: string;
+    }>
+  >;
 };
-export const Emailform = ({ nextStep, backStep }: all) => {
-  const router = useRouter();
+export const Emailform = ({ nextStep, container, setContainer }: all) => {
   const formik = useFormik({
     initialValues: {
-      email: "",
+      email: container.email,
     },
     validationSchema: validtionschema,
     onSubmit: async (values) => {
+      console.log("sending", values.email);
       try {
-        const response = await axios.post("https://localhost:8000/email", {
+        const response = await axios.post("http://localhost:8000/check-email", {
           email: values.email,
         });
         console.log(response.data.message, "response");
-        if (response.data.message === "User already existed") {
-          alert("asd");
-        }
-        router.push("/");
-      } catch (errors) {
+
+        setContainer((prev) => ({ ...prev, email: values.email }));
+        nextStep();
+      } catch (errors: any) {
         console.log(errors, "error");
+
+        if (errors.response.data.message === "User already existed") {
+          formik.setErrors({ email: "This email is already registered" });
+        } else {
+          formik.setErrors({ email: "Server error or invalid request" });
+        }
+        return;
       }
-      nextStep();
     },
   });
 
@@ -85,8 +98,7 @@ export const Emailform = ({ nextStep, backStep }: all) => {
             <Button
               className="bg-[gray]"
               disabled={isButtonDisabled}
-              type="submit"
-            >
+              type="submit">
               Let's Go
             </Button>
           </div>
@@ -110,3 +122,22 @@ export const Emailform = ({ nextStep, backStep }: all) => {
 };
 
 // /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i;
+
+//  onSubmit: async (values) => {
+//       console.log("sending", values.email);
+//       try {
+//         const response = await axios.post("http://localhost:8000/check-email", {
+//           email: values.email,
+//         });
+//         console.log(response.data.message, "response");
+//         if (response.data.message === "User already existed") {
+//           formik.setErrors({ email: "This email is already registered" });
+//           return;
+//         }
+//         setContainer((prev) => ({ ...prev, email: values.email }));
+//       } catch (errors) {
+//         console.log(errors, "error");
+//         formik.setErrors({ email: "Server error or invalid request" });
+//       }
+//       nextStep();
+//     },
