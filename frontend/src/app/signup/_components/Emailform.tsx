@@ -62,8 +62,6 @@ export const Emailform = ({ nextStep, container, setContainer }: all) => {
     },
   });
 
-  const go = () => {};
-
   const emailInputprops = {
     name: "email",
     value: formik.values.email,
@@ -102,8 +100,7 @@ export const Emailform = ({ nextStep, container, setContainer }: all) => {
             <Button
               className="bg-[gray]"
               disabled={isButtonDisabled}
-              type="submit"
-            >
+              type="submit">
               Let's Go
             </Button>
           </div>

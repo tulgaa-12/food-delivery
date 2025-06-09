@@ -11,6 +11,7 @@ import { useState, useEffect } from "react";
 import { Checkbox } from "@/components/ui/checkbox";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
+import { useAuth } from "@/app/_components/UserProvider";
 type AllProps = {
   container: {
     email: string;
@@ -31,12 +32,13 @@ const validtionschema = Yup.object({
     .required("email shardldagtai"),
   password: Yup.string().required("password shardlagatai"),
 });
-export const Login = ({ container, setContainer }: AllProps) => {
+export const Login = () => {
   const router = useRouter();
+  const { user } = useAuth();
   const formik = useFormik({
     initialValues: {
-      email: container.email,
-      password: container.password,
+      email: "",
+      password: "",
     },
     validationSchema: validtionschema,
     onSubmit: async (values) => {
@@ -45,9 +47,12 @@ export const Login = ({ container, setContainer }: AllProps) => {
 
       try {
         const response = await axios.post("http://localhost:8000/login", {
-          password: values.password,
           email: values.email,
+          password: values.password,
         });
+        const token = response.data.token;
+        localStorage.setItem("token", token);
+
         console.log(response, "end bain");
         router.push("/");
       } catch (error) {
@@ -61,8 +66,7 @@ export const Login = ({ container, setContainer }: AllProps) => {
       <div className="basis-[40%] max-w-[416px] flex flex-col gap-10 2xl:ml-[300px] pr-[50px]">
         <Button
           className="w-[36px] bg-white text-[#18181B] outline-none focus:ring-2 focus:ring-pink-500"
-          type="button"
-        >
+          type="button">
           <ChevronLeft />
         </Button>
 
@@ -91,8 +95,8 @@ export const Login = ({ container, setContainer }: AllProps) => {
             )}
 
             <Input
-              id="Password"
-              name="Password"
+              id="password"
+              name="password"
               placeholder=" Password"
               className="h-[36px]"
               value={formik.values.password}

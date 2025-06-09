@@ -3,7 +3,7 @@ import { Schema, model } from "mongoose";
 import mongoose from "mongoose";
 import bcrypt from "bcrypt";
 import cors from "cors";
-
+import jwt from "jsonwebtoken";
 const databaseconnect = async () => {
   try {
     await mongoose.connect(
@@ -78,15 +78,22 @@ app.post("/login", async (req: Request, res: Response) => {
   const isEmailExisted = await UserModel.findOne({ email });
 
   if (!isEmailExisted) {
-    res.status(400).send({ message: "User doesn't existed" });
+    res.status(401).send({ message: "User doesn't existed" });
     return;
   } else {
     const hashePassword = await bcrypt.compare(
       password,
       isEmailExisted.password!
     );
+
+    const TokenPassword = "foodDelivery";
+
     if (hashePassword) {
-      res.send({ message: "Succesfully logged in" });
+      const token = jwt.sign({ userId: isEmailExisted._id }, TokenPassword, {
+        expiresIn: 3000,
+      });
+
+      res.send({ message: "Succesfully logged in", token });
       return;
     } else {
       res.send({ message: "Wrong password , try again", token: "123" });

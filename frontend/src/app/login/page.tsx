@@ -9,7 +9,7 @@ const Home = () => {
   });
   return (
     <div>
-      <Login container={container} setContainer={setContainer} />
+      <Login />
     </div>
   );
 };
