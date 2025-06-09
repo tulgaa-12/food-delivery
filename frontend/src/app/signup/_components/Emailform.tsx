@@ -6,7 +6,8 @@ import Image from "next/image";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import axios from "axios";
-
+import { useRouter } from "next/navigation";
+import Link from "next/link";
 const validtionschema = Yup.object({
   email: Yup.string()
     .email("email format buruu bn")
@@ -32,6 +33,7 @@ type all = {
   >;
 };
 export const Emailform = ({ nextStep, container, setContainer }: all) => {
+  const router = useRouter();
   const formik = useFormik({
     initialValues: {
       email: container.email,
@@ -43,7 +45,7 @@ export const Emailform = ({ nextStep, container, setContainer }: all) => {
         const response = await axios.post("http://localhost:8000/check-email", {
           email: values.email,
         });
-        console.log(response.data.message, "response");
+        console.log(response.data.message, "end bn shuu");
 
         setContainer((prev) => ({ ...prev, email: values.email }));
         nextStep();
@@ -59,6 +61,8 @@ export const Emailform = ({ nextStep, container, setContainer }: all) => {
       }
     },
   });
+
+  const go = () => {};
 
   const emailInputprops = {
     name: "email",
@@ -98,7 +102,8 @@ export const Emailform = ({ nextStep, container, setContainer }: all) => {
             <Button
               className="bg-[gray]"
               disabled={isButtonDisabled}
-              type="submit">
+              type="submit"
+            >
               Let's Go
             </Button>
           </div>
@@ -108,7 +113,9 @@ export const Emailform = ({ nextStep, container, setContainer }: all) => {
           <p className="text-[16px] text-[#71717A] font-normal">
             Already have an account?
           </p>
-          <p className="text-[16px] text-[#2563EB]">Log in</p>
+          <Link href={"/login"}>
+            <p className="text-[16px] text-[#2563EB]">Log in</p>
+          </Link>
         </div>
       </div>
       <div className="  flex-[5] w-full mt-[50px] ">
@@ -122,22 +129,3 @@ export const Emailform = ({ nextStep, container, setContainer }: all) => {
 };
 
 // /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i;
-
-//  onSubmit: async (values) => {
-//       console.log("sending", values.email);
-//       try {
-//         const response = await axios.post("http://localhost:8000/check-email", {
-//           email: values.email,
-//         });
-//         console.log(response.data.message, "response");
-//         if (response.data.message === "User already existed") {
-//           formik.setErrors({ email: "This email is already registered" });
-//           return;
-//         }
-//         setContainer((prev) => ({ ...prev, email: values.email }));
-//       } catch (errors) {
-//         console.log(errors, "error");
-//         formik.setErrors({ email: "Server error or invalid request" });
-//       }
-//       nextStep();
-//     },

@@ -3,36 +3,66 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { ArrowLeft, ArrowRight, ChevronLeft } from "lucide-react";
 import Image from "next/image";
-import { useFormik } from "formik";
+import { Formik, useFormik } from "formik";
 import * as Yup from "yup";
 import axios from "axios";
 import { Label } from "@/components/ui/label";
 import { useState, useEffect } from "react";
 import { Checkbox } from "@/components/ui/checkbox";
+import { useRouter } from "next/navigation";
+import Link from "next/link";
 type AllProps = {
-  backStep: () => void;
   container: {
     email: string;
     password: string;
-    confirm: string;
   };
   setContainer: React.Dispatch<
     React.SetStateAction<{
       email: string;
       password: string;
-      confirm: string;
     }>
   >;
 };
-const [showPassword, setShowPassword] = useState(false);
-export const Login = ({ backStep }: AllProps) => {
+// const [showPassword, setShowPassword] = useState(false);
+
+const validtionschema = Yup.object({
+  email: Yup.string()
+    .email("хүчингүй имэйл байна")
+    .required("email shardldagtai"),
+  password: Yup.string().required("password shardlagatai"),
+});
+export const Login = ({ container, setContainer }: AllProps) => {
+  const router = useRouter();
+  const formik = useFormik({
+    initialValues: {
+      email: container.email,
+      password: container.password,
+    },
+    validationSchema: validtionschema,
+    onSubmit: async (values) => {
+      console.log("sending", values.password);
+      console.log("sending", values.email);
+
+      try {
+        const response = await axios.post("http://localhost:8000/login", {
+          password: values.password,
+          email: values.email,
+        });
+        console.log(response, "end bain");
+        router.push("/");
+      } catch (error) {
+        console.log("Signup error:", error);
+      }
+    },
+  });
+
   return (
     <div className="flex flex-row items-center justify-center gap-30 ">
       <div className="basis-[40%] max-w-[416px] flex flex-col gap-10 2xl:ml-[300px] pr-[50px]">
         <Button
           className="w-[36px] bg-white text-[#18181B] outline-none focus:ring-2 focus:ring-pink-500"
-          onClick={backStep}
-          type="button">
+          type="button"
+        >
           <ChevronLeft />
         </Button>
 
@@ -43,22 +73,37 @@ export const Login = ({ backStep }: AllProps) => {
           </p>
         </div>
 
-        <form>
+        <form onSubmit={formik.handleSubmit}>
           <div className="flex flex-col gap-5">
             <Input
               id="email"
               name="email"
               placeholder="Enter your email address"
               className="h-[36px]"
+              value={formik.values.email}
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
             />
+            {formik.touched.email && formik.errors.email && (
+              <div className="text-[#EF4444] text-sm">
+                {formik.errors.email}
+              </div>
+            )}
 
             <Input
               id="Password"
               name="Password"
-              type={showPassword ? "text" : "password"}
               placeholder=" Password"
               className="h-[36px]"
+              value={formik.values.password}
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
             />
+            {formik.touched.password && formik.errors.password && (
+              <div className="text-[#EF4444] text-sm">
+                {formik.errors.password}
+              </div>
+            )}
 
             <div className="flex items-center gap-2">
               <Label htmlFor="showPassword" className="text-sm">
@@ -76,7 +121,9 @@ export const Login = ({ backStep }: AllProps) => {
           <p className="text-[16px] text-[#71717A] font-normal">
             Already have an account?
           </p>
-          <p className="text-[16px] text-[#2563EB] cursor-pointer">Log in</p>
+          <Link href={"/signup"}>
+            <p className="text-[16px] text-[#2563EB] cursor-pointer">Sign Up</p>
+          </Link>
         </div>
       </div>
 

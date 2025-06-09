@@ -10,6 +10,7 @@ import { useState, useEffect } from "react";
 import { Checkbox } from "@/components/ui/checkbox";
 import axios from "axios";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 
 const validationSchema = Yup.object({
   password: Yup.string()
@@ -97,7 +98,8 @@ export const Passwordform = ({
         <Button
           className="w-[36px] bg-white text-[#18181B] outline-none focus:ring-2 focus:ring-pink-500"
           onClick={backStep}
-          type="button">
+          type="button"
+        >
           <ChevronLeft />
         </Button>
 
@@ -159,18 +161,23 @@ export const Passwordform = ({
             <Button
               className="bg-gray-500 text-white"
               type="submit"
-              disabled={isButtonDisabled}>
+              disabled={isButtonDisabled}
+            >
               Let's Go
             </Button>
           </div>
-        </form>
 
-        <div className="flex flex-row justify-center gap-2">
-          <p className="text-[16px] text-[#71717A] font-normal">
-            Already have an account?
-          </p>
-          <p className="text-[16px] text-[#2563EB] cursor-pointer">Log in</p>
-        </div>
+          <div className="flex flex-row justify-center gap-2">
+            <p className="text-[16px] text-[#71717A] font-normal">
+              Already have an account?
+            </p>
+            <Link href={"/login"}>
+              <p className="text-[16px] text-[#2563EB] cursor-pointer">
+                Log in
+              </p>
+            </Link>
+          </div>
+        </form>
       </div>
 
       <div className="basis-[60%] mt-[140px] mb-[120px]  h-full">
@@ -183,19 +190,3 @@ export const Passwordform = ({
     </div>
   );
 };
-
-//  onSubmit: async (values) => {
-//       try {
-//         const response = await axios.post("http://localhost:8000/signup", {
-//           password: values.password,
-//         });
-//         if (response.data.message === "User already existed") {
-//           formik.setErrors({ password: "User already exists" });
-//           return;
-//         }
-//         router.push("/");
-//       } catch (errors) {
-//         console.log(errors, "error");
-//       }
-//     },
-//   });
