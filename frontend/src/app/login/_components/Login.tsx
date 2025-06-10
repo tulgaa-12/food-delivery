@@ -1,17 +1,17 @@
 "use client";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { ArrowLeft, ArrowRight, ChevronLeft } from "lucide-react";
-import Image from "next/image";
-import { Formik, useFormik } from "formik";
+
+import { useFormik } from "formik";
 import * as Yup from "yup";
 import axios from "axios";
 import { Label } from "@/components/ui/label";
 import { useState, useEffect } from "react";
 import { Checkbox } from "@/components/ui/checkbox";
-import { useRouter } from "next/navigation";
+import { redirect, useRouter } from "next/navigation";
 import Link from "next/link";
 import { useAuth } from "@/app/_components/UserProvider";
+
 type AllProps = {
   container: {
     email: string;
@@ -34,7 +34,7 @@ const validtionschema = Yup.object({
 });
 export const Login = () => {
   const router = useRouter();
-  const { user } = useAuth();
+  const { user, tokenChecker } = useAuth();
   const formik = useFormik({
     initialValues: {
       email: "",
@@ -50,26 +50,24 @@ export const Login = () => {
           email: values.email,
           password: values.password,
         });
-        const token = response.data.token;
-        localStorage.setItem("token", token);
 
-        console.log(response, "end bain");
-        router.push("/");
+        localStorage.setItem("token", response.data.token);
+        await tokenChecker(response.data.token);
+        redirect("/");
+        // console.log(response, "end bain");
+        // router.push("/");
       } catch (error) {
         console.log("Signup error:", error);
       }
     },
   });
+  if (user) {
+    redirect("/");
+  }
 
   return (
     <div className="flex flex-row items-center justify-center gap-30 ">
       <div className="basis-[40%] max-w-[416px] flex flex-col gap-10 2xl:ml-[300px] pr-[50px]">
-        <Button
-          className="w-[36px] bg-white text-[#18181B] outline-none focus:ring-2 focus:ring-pink-500"
-          type="button">
-          <ChevronLeft />
-        </Button>
-
         <div className="flex flex-col">
           <h3 className="text-[24px] font-semibold">Log in</h3>
           <p className="text-[#71717A] text-[16px] font-normal">

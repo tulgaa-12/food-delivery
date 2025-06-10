@@ -90,17 +90,42 @@ app.post("/login", async (req: Request, res: Response) => {
 
     if (hashePassword) {
       const token = jwt.sign({ userId: isEmailExisted._id }, TokenPassword, {
-        expiresIn: 3000,
+        expiresIn: 300,
       });
 
       res.send({ message: "Succesfully logged in", token });
       return;
     } else {
-      res.send({ message: "Wrong password , try again", token: "123" });
+      res.send({ message: "Wrong password , try again", });
       return;
     }
   }
 });
+
+app.post("/verify", async (req:Request, res:Response) => {
+
+const {token} = req.body
+
+  const TokenPassword = "foodDelivery";
+
+  try{
+    const isValid = jwt.verify(token,TokenPassword)
+
+    if(isValid) {
+      const destruck = jwt.decode(token)
+
+      res.send({destruck})
+      return
+    }else{
+      res.status(401).send({message: "token is not valid "})
+      return
+    }
+  }catch(error) {
+    res.status(401).send({message: "token is not valid "})
+    return
+  }
+
+})
 
 app.listen(8000, () => {
   console.log("running on http://localhost:8000");

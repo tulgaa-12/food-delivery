@@ -75,10 +75,7 @@ export const Emailform = ({ nextStep, container, setContainer }: all) => {
 
   return (
     <div className="flex flex-row items-center justify-center   gap-20">
-      <div className=" flex-[2] w-[416px] h-[288px] flex flex-col gap-10">
-        <Button className="w-[36px] bg-[white] text-[#18181B]">
-          <ChevronLeft />
-        </Button>
+      <div className=" basis-[40%] max-w-[416px] flex flex-col gap-10 2xl:ml-[300px] pr-[50px]">
         <div className="flex flex-col ">
           <h3 className="text-[24px] font-semibold">Create your account</h3>
           <p className="text-[#71717A] text-[16px] font-normal">
@@ -100,7 +97,8 @@ export const Emailform = ({ nextStep, container, setContainer }: all) => {
             <Button
               className="bg-[gray]"
               disabled={isButtonDisabled}
-              type="submit">
+              type="submit"
+            >
               Let's Go
             </Button>
           </div>
@@ -115,11 +113,8 @@ export const Emailform = ({ nextStep, container, setContainer }: all) => {
           </Link>
         </div>
       </div>
-      <div className="  flex-[5] w-full mt-[50px] ">
-        <img
-          src="/5.jpg"
-          className="w-[856px] h-full rounded-lg object-cover 2xl:h-[904px]"
-        />
+      <div className=" basis-[60%] mt-[140px] mb-[120px]  h-full">
+        <img src="/5.jpg" className="rounded-lg object-cover h-full w-full" />
       </div>
     </div>
   );
