@@ -24,15 +24,15 @@ type AllProps = {
     }>
   >;
 };
-// const [showPassword, setShowPassword] = useState(false);
 
 const validtionschema = Yup.object({
   email: Yup.string()
     .email("хүчингүй имэйл байна")
-    .required("email shardldagtai"),
-  password: Yup.string().required("password shardlagatai"),
+    .required("Имэйл заавал шаардлагатай"),
+  password: Yup.string().required("Нууц үг заавал шаардлагатай"),
 });
 export const Login = () => {
+  const [errorMessage, setErrorMessage] = useState("");
   const router = useRouter();
   const { user, tokenChecker } = useAuth();
   const formik = useFormik({
@@ -42,6 +42,7 @@ export const Login = () => {
     },
     validationSchema: validtionschema,
     onSubmit: async (values) => {
+      setErrorMessage("");
       console.log("sending", values.password);
       console.log("sending", values.email);
 
@@ -51,19 +52,36 @@ export const Login = () => {
           password: values.password,
         });
 
-        localStorage.setItem("token", response.data.token);
-        await tokenChecker(response.data.token);
-        redirect("/");
+        if (response.data.token) {
+          localStorage.setItem("token", response.data.token);
+          await tokenChecker(response.data.token);
+          router.push("/");
+        } else {
+          setErrorMessage("Амжилтгүй нэвтэрсэн. Дахин оролдоно уу.");
+        }
+
+        // localStorage.setItem("token", response.data.token);
+        // await tokenChecker(response.data.token);
+        // redirect("/");
         // console.log(response, "end bain");
         // router.push("/");
-      } catch (error) {
+      } catch (error: any) {
         console.log("Signup error:", error);
+        setErrorMessage(
+          error.response?.data?.message || "Алдаа гарлаа. Дахин оролдоно уу."
+        );
       }
     },
   });
-  if (user) {
-    redirect("/");
-  }
+  // if (user) {
+  //   redirect("/")
+  // }
+
+  useEffect(() => {
+    if (user) {
+      router.push("/");
+    }
+  }, [user, router]);
 
   return (
     <div className="flex flex-row items-center justify-center gap-30 ">
@@ -105,6 +123,10 @@ export const Login = () => {
               <div className="text-[#EF4444] text-sm">
                 {formik.errors.password}
               </div>
+            )}
+
+            {errorMessage && (
+              <div className="text-[#EF4444] text-sm">{errorMessage}</div>
             )}
 
             <div className="flex items-center gap-2">

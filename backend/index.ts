@@ -96,36 +96,34 @@ app.post("/login", async (req: Request, res: Response) => {
       res.send({ message: "Succesfully logged in", token });
       return;
     } else {
-      res.send({ message: "Wrong password , try again", });
+      res.status(401).send({ message: "Wrong password, try again" });
       return;
     }
   }
 });
 
-app.post("/verify", async (req:Request, res:Response) => {
-
-const {token} = req.body
+app.post("/verify", async (req: Request, res: Response) => {
+  const { token } = req.body;
 
   const TokenPassword = "foodDelivery";
 
-  try{
-    const isValid = jwt.verify(token,TokenPassword)
+  try {
+    const isValid = jwt.verify(token, TokenPassword);
 
-    if(isValid) {
-      const destruck = jwt.decode(token)
+    if (isValid) {
+      const destruck = jwt.decode(token);
 
-      res.send({destruck})
-      return
-    }else{
-      res.status(401).send({message: "token is not valid "})
-      return
+      res.send({ destruck });
+      return;
+    } else {
+      res.status(401).send({ message: "token is not valid " });
+      return;
     }
-  }catch(error) {
-    res.status(401).send({message: "token is not valid "})
-    return
+  } catch (error) {
+    res.status(401).send({ message: "token is not valid " });
+    return;
   }
-
-})
+});
 
 app.listen(8000, () => {
   console.log("running on http://localhost:8000");
