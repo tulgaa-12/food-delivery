@@ -1,9 +1,10 @@
-import express, { Request, Response } from "express";
+import express, { Request, Response, text } from "express";
 import { Schema, model } from "mongoose";
 import mongoose from "mongoose";
 import bcrypt from "bcrypt";
 import cors from "cors";
 import jwt from "jsonwebtoken";
+import nodemailer from "nodemailer";
 const databaseconnect = async () => {
   try {
     await mongoose.connect(
@@ -123,6 +124,38 @@ app.post("/verify", async (req: Request, res: Response) => {
     res.status(401).send({ message: "token is not valid " });
     return;
   }
+});
+
+app.post("/email", async (req: Request, res: Response) => {
+  const transport = nodemailer.createTransport({
+    service: "gmail",
+    host: "smtp.gmail.com",
+    port: 465,
+    secure: true,
+    auth: {
+      user: "jochuekimmich@gmail.com",
+      pass: "xcyqnkwxrykxstna",
+    },
+  });
+
+  const options = {
+    from: "jochuekimmich@gmail.com",
+    to: "e7016307@gmail.com",
+    subject: "Hello",
+    html: "<div style=`color:red`> Hello from tesying env </div> ",
+  };
+
+  await transport.sendMail(options);
+
+  res.send("success");
+});
+
+app.post("/reset", async (req: Request, res: Response) => {
+  const { email } = req.body;
+  if (!email) res.status(400).send({ message: "Email is required" });
+
+  const user = await UserModel.findOne({ email });
+  if (!user) res.status(404).send({ message: "User not found" });
 });
 
 app.listen(8000, () => {

@@ -1,12 +1,12 @@
 "use client";
 import { useAuth } from "./_components/UserProvider";
+import { Homepage } from "./_components4/Homepage";
 
 const Home = () => {
   const { user } = useAuth();
   return (
     <div>
-      {user?.userId}
-      Home page
+      <Homepage />
     </div>
   );
 };
