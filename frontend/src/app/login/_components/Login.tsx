@@ -130,9 +130,11 @@ export const Login = () => {
             )}
 
             <div className="flex items-center gap-2">
-              <Label htmlFor="showPassword" className="text-sm">
-                Forgot password ?
-              </Label>
+              <Link href={"/forget"}>
+                <Label htmlFor="showPassword" className="text-sm">
+                  Forgot password ?
+                </Label>
+              </Link>
             </div>
 
             <Button className="bg-gray-500 text-white" type="submit">
