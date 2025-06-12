@@ -35,7 +35,7 @@ export const AuthProvider = ({ children }: PropsWithChildren) => {
       setUser({ userId: response.data.destruck.userId });
     } catch (err) {
       console.log(err);
-      router.push("/login");
+      // router.push("/login");
     }
   };
 
@@ -45,7 +45,7 @@ export const AuthProvider = ({ children }: PropsWithChildren) => {
     if (token) {
       tokenChecker(token);
     } else {
-      router.push("/login");
+      // router.push("/login");
     }
   }, []);
 

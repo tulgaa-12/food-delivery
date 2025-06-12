@@ -23,7 +23,7 @@ const Home = () => {
   };
   return (
     <div>
-      <Stepper />
+      <Stepper nextStep={nextStep} />
     </div>
   );
 };

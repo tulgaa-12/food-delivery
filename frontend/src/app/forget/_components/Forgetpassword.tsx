@@ -1,7 +1,11 @@
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
-export const Forgotpassword = () => {
+
+type all = {
+  nextStep: () => void;
+};
+export const Forgotpassword = ({ nextStep }: all) => {
   return (
     <div className="flex flex-row items-center justify-center   gap-20">
       <div className=" basis-[40%] max-w-[416px] flex flex-col gap-10 2xl:ml-[300px] pr-[50px]">
@@ -19,7 +23,7 @@ export const Forgotpassword = () => {
                 className="h-[36px]"
               />
             </div>
-            <Button className="bg-[gray]" type="submit">
+            <Button className="bg-[gray]" type="submit" onClick={nextStep}>
               Send link
             </Button>
           </div>
