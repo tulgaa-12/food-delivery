@@ -23,16 +23,20 @@ export const Forgotpassword = ({ nextStep }: all) => {
       console.log("sending", values.email);
 
       try {
-        const response = await axios.post("http://localhost:8000/reset", {
+        const response = await axios.post("http://localhost:8000/email", {
           email: values.email,
         });
 
+        console.log("responess ", response);
         nextStep();
       } catch (error) {
         console.log(error, "error");
       }
     },
   });
+
+  const isButtonDisabled =
+    !formik.values.email || !!formik.errors.email || !formik.touched.email;
   return (
     <div className="flex flex-row items-center justify-center   gap-20">
       <div className=" basis-[40%] max-w-[416px] flex flex-col gap-10 2xl:ml-[300px] pr-[50px]">
@@ -58,7 +62,11 @@ export const Forgotpassword = ({ nextStep }: all) => {
                 <p className="text-red-500 text-sm">{formik.errors.email}</p>
               )}
             </div>
-            <Button className="bg-[gray]" type="submit">
+            <Button
+              className="bg-[gray]"
+              type="submit"
+              disabled={isButtonDisabled}
+            >
               Send link
             </Button>
           </div>

@@ -5,6 +5,7 @@ import bcrypt from "bcrypt";
 import cors from "cors";
 import jwt from "jsonwebtoken";
 import nodemailer from "nodemailer";
+
 const databaseconnect = async () => {
   try {
     await mongoose.connect(
@@ -23,7 +24,17 @@ const Users = new Schema({
   updateAt: { type: Date, default: Date.now },
 });
 
+const Otp = new Schema ({
+  code: {type:String, require: true},
+  userId: {type:Schema.ObjectId,require:true, ref: "Users"},
+
+  createdAT: {type:Date, default: Date.now, expires: 90}
+})
+
+
+
 const UserModel = model("Users", Users);
+const OtpMode = model("Otp", Otp)
 
 const app = express();
 app.use(cors());
@@ -127,6 +138,14 @@ app.post("/verify", async (req: Request, res: Response) => {
 });
 
 app.post("/email", async (req: Request, res: Response) => {
+  const { email } = req.body;
+
+  const isEmailExisted = await UserModel.findOne({ email})
+
+  if (!isEmailExisted){
+    res.status(401).send(" Wrong Doesn't exist")
+  }
+  const code = Math.floor(100000 + Math.random() * 90000).toString();
   const transport = nodemailer.createTransport({
     service: "gmail",
     host: "smtp.gmail.com",
@@ -140,23 +159,34 @@ app.post("/email", async (req: Request, res: Response) => {
 
   const options = {
     from: "jochuekimmich@gmail.com",
-    to: "e7016307@gmail.com",
+    to: req.body.email,
     subject: "Hello",
-    html: "<div style=`color:red`> Hello from tesying env </div> ",
+    html: `<div style="color:red"> ${code} </div> `,
   };
+
+  await OtpMode.create({code: code, userId: isEmailExisted?._id})
 
   await transport.sendMail(options);
 
   res.send("success");
 });
 
-app.post("/reset", async (req: Request, res: Response) => {
-  const { email } = req.body;
-  if (!email) res.status(400).send({ message: "Email is required" });
+app.post("/checkOtp", async (req:Request,res:Response) => {
+  const {code} = req.body
 
-  const user = await UserModel.findOne({ email });
-  if (!user) res.status(404).send({ message: "User not found" });
-});
+  try{
+const isOtpExisting = await OtpMode.findOne({code: code}).populate("userId") 
+if(!isOtpExisting){
+  res.status(400).send("wrong code")
+  return
+}
+
+res.status(200).send( {message:"success",isOtpExisting})
+  }catch(err){
+    res.status(400).send("Aldaa")
+  }
+})
+
 
 app.listen(8000, () => {
   console.log("running on http://localhost:8000");
