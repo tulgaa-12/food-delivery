@@ -1,7 +1,6 @@
 "use client";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { ArrowLeft, ArrowRight, ChevronLeft } from "lucide-react";
 import Image from "next/image";
 import { useFormik } from "formik";
 import * as Yup from "yup";
@@ -97,8 +96,7 @@ export const Emailform = ({ nextStep, container, setContainer }: all) => {
             <Button
               className="bg-[gray]"
               disabled={isButtonDisabled}
-              type="submit"
-            >
+              type="submit">
               Let's Go
             </Button>
           </div>

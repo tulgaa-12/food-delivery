@@ -24,17 +24,15 @@ const Users = new Schema({
   updateAt: { type: Date, default: Date.now },
 });
 
-const Otp = new Schema ({
-  code: {type:String, require: true},
-  userId: {type:Schema.ObjectId,require:true, ref: "Users"},
+const Otp = new Schema({
+  code: { type: String, require: true },
+  userId: { type: Schema.ObjectId, require: true, ref: "Users" },
 
-  createdAT: {type:Date, default: Date.now, expires: 90}
-})
-
-
+  createdAT: { type: Date, default: Date.now, expires: 90 },
+});
 
 const UserModel = model("Users", Users);
-const OtpMode = model("Otp", Otp)
+const OtpMode = model("Otp", Otp);
 
 const app = express();
 app.use(cors());
@@ -140,10 +138,10 @@ app.post("/verify", async (req: Request, res: Response) => {
 app.post("/email", async (req: Request, res: Response) => {
   const { email } = req.body;
 
-  const isEmailExisted = await UserModel.findOne({ email})
+  const isEmailExisted = await UserModel.findOne({ email });
 
-  if (!isEmailExisted){
-    res.status(401).send(" Wrong Doesn't exist")
+  if (!isEmailExisted) {
+    res.status(401).send(" Wrong Doesn't exist");
   }
   const code = Math.floor(100000 + Math.random() * 90000).toString();
   const transport = nodemailer.createTransport({
@@ -164,30 +162,94 @@ app.post("/email", async (req: Request, res: Response) => {
     html: `<div style="color:red"> ${code} </div> `,
   };
 
-  await OtpMode.create({code: code, userId: isEmailExisted?._id})
+  await OtpMode.create({ code: code, userId: isEmailExisted?._id });
 
   await transport.sendMail(options);
 
   res.send("success");
 });
 
-app.post("/checkOtp", async (req:Request,res:Response) => {
-  const {code} = req.body
+app.post("/checkOtp", async (req: Request, res: Response) => {
+  const { code } = req.body;
 
-  try{
-const isOtpExisting = await OtpMode.findOne({code: code}).populate("userId") 
-if(!isOtpExisting){
-  res.status(400).send("wrong code")
-  return
-}
+  try {
+    const isOtpExisting = await OtpMode.findOne({ code: code }).populate(
+      "userId"
+    );
+    if (!isOtpExisting) {
+      res.status(400).send("wrong code");
+      return;
+    }
 
-res.status(200).send( {message:"success",isOtpExisting})
-  }catch(err){
-    res.status(400).send("Aldaa")
+    res.status(200).send({ message: "success", isOtpExisting });
+  } catch (err) {
+    res.status(400).send("Aldaa");
   }
-})
+});
 
+app.post("/password", async (req: Request, res: Response) => {
+  const { password, token } = req.body;
+
+  if (!token || !password) {
+    res.status(400).json({ message: "Token болон шинэ нууц үг шаардлагатай" });
+    return;
+  }
+
+  try {
+    const decoded = jwt.verify(token, "foodDelivery");
+    const userId = (decoded as { userId: string }).userId;
+
+    const user = await UserModel.findById(userId);
+
+    if (!user) {
+      res.status(404).json({ message: "Хэрэглэгч олдсонгүй" });
+      return;
+    }
+
+    const hashedPassword = await bcrypt.hash(password, 10);
+    user.password = hashedPassword;
+
+    await user.save();
+
+    res.status(200).json({ message: "Нууц үг амжилттай шинэчлэгдлээ" });
+  } catch (error) {
+    console.error("Алдаа:", error);
+    res.status(500).json({ error: "aldaa garlaa" });
+  }
+});
 
 app.listen(8000, () => {
   console.log("running on http://localhost:8000");
 });
+
+// app.post("/checkOtp", async (req: Request, res: Response) => {
+//   const { code } = req.body;
+
+//   if (!code) {
+//     res.status(400).json({ message: "OTP код ирээгүй байна." });
+//     return;
+//   }
+
+//   try {
+//     const otpEntry = await OtpMode.findOne({ code }).populate("userId");
+
+//     if (!otpEntry) {
+//       res.status(400).json({ message: "Буруу OTP код байна." });
+//       return;
+//     }
+
+//     // Хүсвэл энд хугацаа шалгаж болно (expiry)
+//     // if (otpEntry.expiresAt < new Date()) {
+//     //   return res.status(400).json({ message: "OTP код хугацаа дууссан байна." });
+//     // }
+
+//     res.status(200).json({
+//       message: "OTP код зөв байна.",
+//       user: otpEntry.userId,
+//     });
+//   } catch (err) {
+//     console.error("OTP шалгах алдаа:", err);
+//     res.status(500).json({ message: "Серверийн алдаа." });
+//     return;
+//   }
+// });

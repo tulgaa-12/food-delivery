@@ -15,7 +15,7 @@ type all = {
 };
 
 const validtionschema = Yup.object({
-  otp: Yup.string().required(" заавал шаардлагатай"),
+  otp: Yup.string().required("OTP код шаардлагатай"),
 });
 export const Resend = ({ nextStep }: all) => {
   const formik = useFormik({
@@ -28,7 +28,7 @@ export const Resend = ({ nextStep }: all) => {
 
       try {
         const response = await axios.post("http://localhost:8000/checkOtp", {
-          otp: values.otp,
+          code: values.otp,
         });
 
         console.log("responess ", response);
@@ -39,13 +39,16 @@ export const Resend = ({ nextStep }: all) => {
     },
   });
 
-  const emailInputprops = {
-    id: "Otp",
-    name: "Otp",
-    value: formik.values.otp,
-    onChange: formik.handleChange,
-    onBlur: formik.handleBlur,
-  };
+  const isButtonDisabled =
+    !formik.values.otp || !!formik.errors.otp || !formik.touched.otp;
+
+  // const emailInputprops = {
+  //   id: "otp",
+  //   name: "otp",
+  //   value: formik.values.otp,
+  //   onChange: formik.handleChange,
+  //   onBlur: formik.handleBlur,
+  // };
   return (
     <div className="flex flex-row items-center justify-center   gap-20">
       <div className=" basis-[40%] max-w-[416px] flex flex-col gap-10 2xl:ml-[300px] pr-[50px]">
@@ -61,7 +64,11 @@ export const Resend = ({ nextStep }: all) => {
         <form onSubmit={formik.handleSubmit}>
           <div className="flex flex-col gap-10 ">
             <div className="flex flex-col gap-1 justify-center w-[350px]   items-center">
-              <InputOTP maxLength={6} pattern={REGEXP_ONLY_DIGITS_AND_CHARS}>
+              <InputOTP
+                maxLength={6}
+                pattern={REGEXP_ONLY_DIGITS_AND_CHARS}
+                value={formik.values.otp}
+                onChange={(value) => formik.setFieldValue("otp", value)}>
                 <InputOTPGroup>
                   <InputOTPSlot index={0} />
                   <InputOTPSlot index={1} />
@@ -71,21 +78,17 @@ export const Resend = ({ nextStep }: all) => {
                   <InputOTPSlot index={5} />
                 </InputOTPGroup>
               </InputOTP>
+              {formik.touched.otp && formik.errors.otp && (
+                <div className="text-red-500 text-sm mt-1">
+                  {formik.errors.otp}
+                </div>
+              )}
             </div>
             <Button className="bg-[gray]" type="submit">
               Resend email
             </Button>
           </div>
         </form>
-
-        <div className="flex flex-row justify-center gap-2">
-          <p className="text-[16px] text-[#71717A] font-normal">
-            Don’t have an account?
-          </p>
-          <Link href={"/login"}>
-            <p className="text-[16px] text-[#2563EB]">Log in</p>
-          </Link>
-        </div>
       </div>
       <div className=" basis-[60%] mt-[140px] mb-[120px]  h-full">
         <img src="/5.jpg" className="rounded-lg object-cover h-full w-full" />
