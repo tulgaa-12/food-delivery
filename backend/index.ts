@@ -31,74 +31,71 @@ const Otp = new Schema({
   createdAT: { type: Date, default: Date.now, expires: 90 },
 });
 
- enum UserRoleEnum {
-  ADMIN= "ADMIN",
-  USER="USER"
- }
+enum UserRoleEnum {
+  ADMIN = "ADMIN",
+  USER = "USER",
+}
 
-const User = new Schema ({
-  _id:{type:Schema.ObjectId},
-  email:{type:String},
-  password:{type:String},
-  phoneNumber:{type:Number},
-  address:{type:String},
-  role:{type:[UserRoleEnum ],required:true},
-  isVerified:{type:Boolean},
+const User = new Schema({
+  email: { type: String, required: true },
+  password: { type: String, required: true },
+  phoneNumber: { type: String }, // String бол зөв
+  address: { type: String },
+  role: { type: String, enum: Object.values(UserRoleEnum), required: true },
+  isVerified: { type: Boolean, default: false },
+  orderedFoods: [{ type: Schema.Types.ObjectId, ref: "FoodOrder" }],
   createdAt: { type: Date, default: Date.now, immutable: true },
-  updateAt: { type: Date, default: Date.now },
-})
+  updatedAt: { type: Date, default: Date.now },
+});
 
+const Food = new Schema({
+  foodName: { type: String, required: true },
+  price: { type: Number, required: true },
+  image: { type: String },
+  ingredients: { type: String },
+  category: { type: Schema.Types.ObjectId, ref: "FoodCategory" },
+  createdAt: { type: Date, default: Date.now, immutable: true },
+  updatedAt: { type: Date, default: Date.now },
+});
 
-const Food = new Schema ({
-  _id:{type: Schema.ObjectId},
-  foodname:{type:String , required:true},
-  price:{type:Number, reqiured:true},
-  image:{type:String},
-  ingredients:{type:String},
-  category:{type:Object},
-
-  createAT:{type: Date, default: Date.now, immutable:true},
-  updateAt: { type: Date, default: Date.now },
-})
-
-const Foodcategory = new Schema ({
-  _id:{type:Object , required:true},
-  categoryName:{type :String,},
-  createAT:{type: Date, default: Date.now, immutable:true},
-  updateAt: { type: Date, default: Date.now },
-})
+const FoodCategory = new Schema({
+  categoryName: { type: String, required: true },
+  createdAt: { type: Date, default: Date.now, immutable: true },
+  updatedAt: { type: Date, default: Date.now },
+});
 
 enum StatusEnum {
   CANCELED = "CANCELED",
-  DELIVERED = "DELIVERED"
+  DELIVERED = "DELIVERED",
 }
 
-const FoodorderItemSchema = new Schema({
-  quantity:{ type:Number, required: true},
-  food:{type:Schema.Types.ObjectId, ref:"Foods", required:true}
-},{
-  _id:false
+const FoodorderItemSchema = new Schema(
+  {
+    quantity: { type: Number, required: true },
+    food: { type: Schema.Types.ObjectId, ref: "Food", required: true },
+  },
+  {
+    _id: false,
+  }
+);
 
+enum FoodOrderStatusEnum {
+  PENDING = "PENDING",
+  CANCELED = "CANCELED",
+  DELIVERED = "DELIVERED",
+}
 
-})
-
-enum FoodOrderStatusEnum  {
-  PENDING ="PENDING",
-  CANCELED="CANCELED",
-  DELIVERED="DELIVERED"
- }
- 
 const Foodorder = new Schema({
-  user:{ type: Schema.ObjectId, require: true,ref:"Users"},
-  totalPrice:{ type:Number, require:true},
+  user: { type: Schema.ObjectId, require: true, ref: "Users" },
+  totalPrice: { type: Number, require: true },
   foodOrderItems: {
     type: [FoodorderItemSchema],
-    required:true
+    required: true,
   },
-  status:{type:[FoodOrderStatusEnum ],required:true},
+  status: { type: [FoodOrderStatusEnum], required: true },
   createdAt: { type: Date, default: Date.now, immutable: true },
-  updateAt: { type: Date, default: Date.now },
-})
+  updatedAt: { type: Date, default: Date.now },
+});
 
 const UserModel = model("Users", Users);
 const OtpMode = model("Otp", Otp);
@@ -290,4 +287,3 @@ app.post("/password", async (req: Request, res: Response) => {
 app.listen(8000, () => {
   console.log("running on http://localhost:8000");
 });
-
