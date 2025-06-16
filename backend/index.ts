@@ -1,5 +1,5 @@
 import express, { Request, Response, text } from "express";
-import { Schema, model } from "mongoose";
+import { Schema, Types, model } from "mongoose";
 import mongoose from "mongoose";
 import bcrypt from "bcrypt";
 import cors from "cors";
@@ -30,6 +30,75 @@ const Otp = new Schema({
 
   createdAT: { type: Date, default: Date.now, expires: 90 },
 });
+
+ enum UserRoleEnum {
+  ADMIN= "ADMIN",
+  USER="USER"
+ }
+
+const User = new Schema ({
+  _id:{type:Schema.ObjectId},
+  email:{type:String},
+  password:{type:String},
+  phoneNumber:{type:Number},
+  address:{type:String},
+  role:{type:[UserRoleEnum ],required:true},
+  isVerified:{type:Boolean},
+  createdAt: { type: Date, default: Date.now, immutable: true },
+  updateAt: { type: Date, default: Date.now },
+})
+
+
+const Food = new Schema ({
+  _id:{type: Schema.ObjectId},
+  foodname:{type:String , required:true},
+  price:{type:Number, reqiured:true},
+  image:{type:String},
+  ingredients:{type:String},
+  category:{type:Object},
+
+  createAT:{type: Date, default: Date.now, immutable:true},
+  updateAt: { type: Date, default: Date.now },
+})
+
+const Foodcategory = new Schema ({
+  _id:{type:Object , required:true},
+  categoryName:{type :String,},
+  createAT:{type: Date, default: Date.now, immutable:true},
+  updateAt: { type: Date, default: Date.now },
+})
+
+enum StatusEnum {
+  CANCELED = "CANCELED",
+  DELIVERED = "DELIVERED"
+}
+
+const FoodorderItemSchema = new Schema({
+  quantity:{ type:Number, required: true},
+  food:{type:Schema.Types.ObjectId, ref:"Foods", required:true}
+},{
+  _id:false
+
+
+})
+
+enum FoodOrderStatusEnum  {
+  PENDING ="PENDING",
+  CANCELED="CANCELED",
+  DELIVERED="DELIVERED"
+ }
+ 
+const Foodorder = new Schema({
+  user:{ type: Schema.ObjectId, require: true,ref:"Users"},
+  totalPrice:{ type:Number, require:true},
+  foodOrderItems: {
+    type: [FoodorderItemSchema],
+    required:true
+  },
+  status:{type:[FoodOrderStatusEnum ],required:true},
+  createdAt: { type: Date, default: Date.now, immutable: true },
+  updateAt: { type: Date, default: Date.now },
+})
 
 const UserModel = model("Users", Users);
 const OtpMode = model("Otp", Otp);
@@ -222,34 +291,3 @@ app.listen(8000, () => {
   console.log("running on http://localhost:8000");
 });
 
-// app.post("/checkOtp", async (req: Request, res: Response) => {
-//   const { code } = req.body;
-
-//   if (!code) {
-//     res.status(400).json({ message: "OTP код ирээгүй байна." });
-//     return;
-//   }
-
-//   try {
-//     const otpEntry = await OtpMode.findOne({ code }).populate("userId");
-
-//     if (!otpEntry) {
-//       res.status(400).json({ message: "Буруу OTP код байна." });
-//       return;
-//     }
-
-//     // Хүсвэл энд хугацаа шалгаж болно (expiry)
-//     // if (otpEntry.expiresAt < new Date()) {
-//     //   return res.status(400).json({ message: "OTP код хугацаа дууссан байна." });
-//     // }
-
-//     res.status(200).json({
-//       message: "OTP код зөв байна.",
-//       user: otpEntry.userId,
-//     });
-//   } catch (err) {
-//     console.error("OTP шалгах алдаа:", err);
-//     res.status(500).json({ message: "Серверийн алдаа." });
-//     return;
-//   }
-// });
