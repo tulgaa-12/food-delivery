@@ -1,5 +1,6 @@
 import { Button } from "@/components/ui/button";
-import {} from "lucide-react";
+import Image from "next/image";
+import Link from "next/link";
 export const Footer = () => {
   return (
     <div className="w-full h-[755px] bg-[#18181B] flex justify-center flex-col gap-30 ">
@@ -35,9 +36,11 @@ export const Footer = () => {
           <Button variant="link" className="text-[#FAFAFA] text-[16px] ">
             Home
           </Button>
-          <Button variant="link" className="text-[#FAFAFA] text-[16px] ">
-            Contacts us
-          </Button>
+          <Link href={"/admin"}>
+            <Button variant="link" className="text-[#FAFAFA] text-[16px] ">
+              Contacts us
+            </Button>
+          </Link>
           <Button variant="link" className="text-[#FAFAFA] text-[16px] ">
             Delivery zone
           </Button>
@@ -80,9 +83,10 @@ export const Footer = () => {
             variant="link"
             className="text-[#FAFAFA] text-[16px] "
           ></Button>
-          <Button variant="link" className="text-[#FAFAFA] text-[16px] ">
-            Brunch
-          </Button>
+          <Button
+            variant="link"
+            className="text-[#FAFAFA] text-[16px] "
+          ></Button>
         </div>
       </div>
       <div className="flex  flex-col justify-center 2xl:ml-[500px]">

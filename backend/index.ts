@@ -284,6 +284,10 @@ app.post("/password", async (req: Request, res: Response) => {
   }
 });
 
+app.post("/image", async (req:Request,res:Response) => {
+  
+})
+
 app.listen(8000, () => {
   console.log("running on http://localhost:8000");
 });
