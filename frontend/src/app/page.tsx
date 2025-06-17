@@ -1,6 +1,6 @@
 "use client";
 import { useAuth } from "./_components/UserProvider";
-import { Homepage } from "./_components4/Homepage";
+import { Homepage } from "./homepage/Homepage";
 
 const Home = () => {
   const { user } = useAuth();

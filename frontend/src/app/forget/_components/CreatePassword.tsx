@@ -43,7 +43,7 @@ export const CreatePassword = () => {
         }));
         const response = await axios.post("http://localhost:8000/password", {
           password: values.password,
-          // email: container.confirmpassword,
+          email: container.confirmpassword,
           token: token,
         });
 

@@ -52,14 +52,6 @@ export const Login = () => {
           password: values.password,
         });
 
-        // if (response.data.token) {
-        //   localStorage.setItem("token", response.data.token);
-        //   await tokenChecker(response.data.token);
-        //   router.push("/");
-        // } else {
-        //   setErrorMessage("Амжилтгүй нэвтэрсэн. Дахин оролдоно уу.");
-        // }
-
         localStorage.setItem("token", response.data.token);
         await tokenChecker(response.data.token);
         redirect("/");
@@ -73,9 +65,6 @@ export const Login = () => {
       }
     },
   });
-  // if (user) {
-  //   redirect("/")
-  // }
 
   useEffect(() => {
     if (user) {
