@@ -7,6 +7,7 @@ import jwt from "jsonwebtoken";
 
 import { UserRouter } from "./router/user.router";
 import { CategoryRouter } from "./router/category.router";
+import { FoodRouter } from "./router/food-router";
 
 const app = express();
 app.use(cors());
@@ -27,6 +28,7 @@ databaseconnect();
 
 app.use(UserRouter);
 app.use(CategoryRouter);
+app.use(FoodRouter)
 app.listen(8000, () => {
   console.log("running on http://localhost:8000");
 });
@@ -37,13 +39,7 @@ app.listen(8000, () => {
 // }
 
 // const Food = new Schema({
-//   foodName: { type: String, required: true },
-//   price: { type: Number, required: true },
-//   image: { type: String },
-//   ingredients: { type: String },
-//   category: { type: Schema.Types.ObjectId, ref: "FoodCategory" },
-//   createdAt: { type: Date, default: Date.now, immutable: true },
-//   updatedAt: { type: Date, default: Date.now },
+//  
 // });
 
 // const FoodCategory = new Schema({

@@ -8,6 +8,7 @@ export const SendOtp = async (req: Request, res: Response) => {
 
   const isEmailExisted = await UserModel.findOne({ email });
 
+
   if (!isEmailExisted) {
     res.status(401).send(" Wrong Doesn't exist");
   }

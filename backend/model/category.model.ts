@@ -12,4 +12,6 @@ const CategorySchema = new Schema<CategoryType>({
   updatedAt: { type: Date, default: Date.now },
 });
 
+
+CategorySchema.index({categoryName:1},{unique:true})
 export const CategoryModel = model<CategoryType>("Categorys", CategorySchema);
