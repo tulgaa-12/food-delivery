@@ -17,7 +17,7 @@ const FoodSchema = new Schema<Food>({
   price: { type: Number, required: true },
 
   ingredients: { type: String, required: true },
-  category: { type: Schema.Types.ObjectId, required: true, ref: "Categories" },
+  category: { type: Schema.Types.ObjectId, required: true, ref: "categories" },
 
   createdAt: { type: Date, default: Date.now, immutable: true },
   updateAt: { type: Date, default: Date.now },

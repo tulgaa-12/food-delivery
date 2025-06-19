@@ -1,12 +1,13 @@
 import { Request, Response } from "express";
 import { FoodModel } from "../../model/food.model";
+import { UserModel } from "../../model/users.model";
 
 export const getFood = async (_req: Request, res: Response) => {
   try {
     const result = await FoodModel.aggregate([
       {
         $lookup: {
-          from: "Categories",
+          from: "categories",
 
           localField: "category",
 

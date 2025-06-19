@@ -2,24 +2,30 @@ import { Button } from "@/components/ui/button";
 import { Limelight } from "next/font/google";
 import Image from "next/image";
 import Link from "next/link";
+import { motion } from "framer-motion";
 export const Footer = () => {
+  const titles = [
+    "Fresh fast delivered",
+    "Fresh fast delivered",
+    "Fresh fast delivered",
+    "Fresh fast delivered",
+    "Fresh fast delivered",
+  ];
   return (
-    <div className="w-full h-[755px] bg-[#18181B] flex justify-center flex-col gap-30 ">
+    <div className="w-full h-[755px] bg-[#18181B] flex justify-center flex-col gap-10 ">
       <div className="w-full h-[92px] bg-[#EF4444] flex flex-row gap-10 justify-center items-center">
-        <h2 className="font-semibold text-[30px] text-[#FAFAFA] ">
-          Fresh fast delivered
-        </h2>
-        <h2 className="font-semibold text-[30px] text-[#FAFAFA] ">
-          Fresh fast delivered
-        </h2>
-        <h2 className="font-semibold text-[30px] text-[#FAFAFA] ">
-          Fresh fast delivered
-        </h2>
-        <h2 className="font-semibold text-[30px] text-[#FAFAFA] ">
-          Fresh fast delivered
-        </h2>
+        {titles.map((title, index) => (
+          <motion.h2
+            key={index}
+            initial={{ x: -50, opacity: 0 }}
+            animate={{ x: 0, opacity: 1 }}
+            transition={{ duration: 0.5, delay: index * 0.2 }}
+            className="font-semibold text-[30px] text-[#FAFAFA]">
+            {title}
+          </motion.h2>
+        ))}
       </div>
-      <div className="h-[228px] w-[1264px] flex flex-row gap-50 ">
+      <div className="h-[228px] w-full flex flex-row gap-50 ">
         <div className="w-[146px] h-[44px] flex flex-row gap-[10px] ml-[100px]  ">
           <img src="togoo.jpg" alt="signup visual" className="" />
           <div className="flex flex-col">
@@ -78,21 +84,10 @@ export const Footer = () => {
             Fish & Sea foods
           </Button>
         </div>
-        <div className="flex flex-col items-center ">
-          <p className="text-[#71717A] text-[16px] font-normal">FOLLOW US</p>
-          <Button
-            variant="link"
-            className="text-[#FAFAFA] text-[16px] "
-          ></Button>
-          <Button
-            variant="link"
-            className="text-[#FAFAFA] text-[16px] "
-          ></Button>
-        </div>
       </div>
       <div className="flex  flex-col justify-center 2xl:ml-[500px]">
-        <div className="  w-[1264px] h-[1px] bg-[#71717A] ml-[50px]"></div>
-        <div className="w-[1264px] h-[84px] flex flex-row items-center gap-10  ml-[50px]">
+        <div className="  w-[1265px] h-[1px] bg-[#71717A] ml-[50px]"></div>
+        <div className="w-full h-[84px] flex flex-row items-center gap-10  ml-[50px]">
           <p className="text-[14px] text-[#71717A] font-normal">
             Copy right 2024 Nomnom LLC
           </p>
