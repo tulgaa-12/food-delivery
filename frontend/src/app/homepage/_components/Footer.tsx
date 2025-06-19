@@ -1,4 +1,5 @@
 import { Button } from "@/components/ui/button";
+import { Limelight } from "next/font/google";
 import Image from "next/image";
 import Link from "next/link";
 export const Footer = () => {
@@ -101,6 +102,7 @@ export const Footer = () => {
           <p className="text-[14px] text-[#71717A] font-normal">
             Terms and conditoin
           </p>
+
           <p className="text-[14px] text-[#71717A] font-normal">
             Cookie policy
           </p>
