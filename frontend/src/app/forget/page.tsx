@@ -5,7 +5,7 @@ import { Forgotpassword } from "./_components/Forgetpassword";
 import { Resend } from "./_components/Resend";
 import { CreatePassword } from "./_components/CreatePassword";
 
-const Home = () => {
+const ForgetHome = () => {
   const components = [Forgotpassword, Resend, CreatePassword];
   const [step, setStep] = useState(0);
   const Stepper = components[step];
@@ -28,4 +28,4 @@ const Home = () => {
   );
 };
 
-export default Home;
+export default ForgetHome;

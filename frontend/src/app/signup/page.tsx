@@ -10,7 +10,7 @@ import { Passwordform } from "./_components/Passwordform";
 
 import { useState } from "react";
 
-const Home = () => {
+const SignHome = () => {
   const components = [Emailform, Passwordform];
   const [step, setStep] = useState(0);
   const Stepper = components[step];
@@ -39,4 +39,4 @@ const Home = () => {
   );
 };
 
-export default Home;
+export default SignHome;

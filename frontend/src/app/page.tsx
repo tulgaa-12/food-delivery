@@ -1,12 +1,11 @@
-"use client";
-import { useAuth } from "./_components/UserProvider";
-import { Homepage } from "./homepage/Homepage";
+import axios from "axios";
+import { MenuContainer } from "./_components/Menucontainer";
 
-const Home = () => {
-  const { user } = useAuth();
+const Home = async () => {
+  const { data } = await axios.get("http://localhost:8000/getFood");
   return (
-    <div>
-      <Homepage />
+    <div className="bg-[#404040]">
+      <MenuContainer foods={data.foods} />
     </div>
   );
 };

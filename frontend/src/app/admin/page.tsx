@@ -2,19 +2,7 @@ import { Dishes } from "./_components/Dishes";
 import { HeaderContainer } from "./_components/HeaderContainer";
 import { MenuContainer } from "./_components/MenuContainer";
 
-type FoodProps = {
-  foodName: string;
-  image: string;
-  ingredients: string;
-  price: number;
-  _id: string;
-};
-
-type PropsType = {
-  foods: Record<string, FoodProps[]>;
-};
-
-const Home = () => {
+const MenuHome = () => {
   return (
     <div className="flex flex-row bg-[#F4F4F5]">
       <Dishes />
@@ -22,4 +10,4 @@ const Home = () => {
   );
 };
 
-export default Home;
+export default MenuHome;

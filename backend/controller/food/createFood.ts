@@ -9,6 +9,6 @@ export const createFood = async (req: Request, res: Response) => {
 
     res.send({ message: "Successfully add Food" });
   } catch (error) {
-    res.status(400).send({ message: "" });
+    res.status(400).send({ message: "food aldaatai bn" });
   }
 };

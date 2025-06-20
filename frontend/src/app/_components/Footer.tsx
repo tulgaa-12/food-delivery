@@ -1,5 +1,7 @@
+"use client";
+
 import { Button } from "@/components/ui/button";
-import { Limelight } from "next/font/google";
+
 import Image from "next/image";
 import Link from "next/link";
 import { motion } from "framer-motion";
@@ -20,7 +22,8 @@ export const Footer = () => {
             initial={{ x: -50, opacity: 0 }}
             animate={{ x: 0, opacity: 1 }}
             transition={{ duration: 0.5, delay: index * 0.2 }}
-            className="font-semibold text-[30px] text-[#FAFAFA]">
+            className="font-semibold text-[30px] text-[#FAFAFA]"
+          >
             {title}
           </motion.h2>
         ))}
