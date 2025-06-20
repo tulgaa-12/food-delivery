@@ -22,8 +22,7 @@ export const MenuContainer = ({ foods }: PropsType) => {
       {keys.map((el) => (
         <div
           key={el}
-          className="flex flex-col   justify-center item-center gap-[88px]"
-        >
+          className="flex flex-col   justify-center item-center gap-[88px]">
           <h2 className=" text-[white] font-semibold text-[30px] ml-35">
             {el}
           </h2>
@@ -38,17 +37,15 @@ export const MenuContainer = ({ foods }: PropsType) => {
                   scale: 1.03,
                   boxShadow: "0px 8px 20px rgba(0,0,0,0.2)",
                 }}
-                className=" 2xl:w-[540px] 2xl:h-[480px]  w-[397px] h-[342px]"
-              >
+                className=" 2xl:w-[540px] 2xl:h-[480px]  w-[397px] h-[342px]">
                 <div
                   key={food._id}
-                  className="flex flex-col justify-center gap-5 w-[397px] h-[342px] shadow-lg rounded-[20px] bg-[#FFFFFF] p-5 
-              2xl:w-[540px] 2xl:h-[480px] 2xl:rounded-[30px] 2xl:flex 2xl:gap-2  shadow-2xl"
-                >
+                  className="flex flex-col justify-center  w-[397px] h-[342px] shadow-lg rounded-[20px] bg-[#FFFFFF] p-5 
+              2xl:w-[540px] 2xl:h-[480px] 2xl:rounded-[30px] 2xl:flex 2xl:gap-2  shadow-2xl">
                   <img
                     src={food.image}
                     alt={food.foodName}
-                    className="w-[365px] h-[180px] rounded-xl object-cover 
+                    className="w-[365px] h-[210px] rounded-xl object-cover 
                2xl:w-[500px] 2xl:h-[300px] 2xl:rounded-2xl  "
                   />
                   <DialogConatiner

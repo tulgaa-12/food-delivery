@@ -10,6 +10,7 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import Image from "next/image";
+import { VisuallyHidden } from "@radix-ui/react-visually-hidden";
 type FoodProps = {
   foodName: string;
   image: string;
@@ -32,12 +33,14 @@ export const DialogConatiner = ({
           <DialogTrigger asChild className="relative">
             <Button
               variant="outline"
-              className="bg-[white] text-[20px] text-[#EF4444] rounded-full w-[44px] h-[44px] absolute  right-10 bottom-50 z-index  "
-            >
+              className="bg-[white] text-[20px] text-[#EF4444] rounded-full w-[44px] h-[44px] absolute  right-10 bottom-35 2xl:bottom-50 z-index  ">
               +
             </Button>
           </DialogTrigger>
           <DialogContent className="w-full h-[412px] flex flex-row rounded-[20px] gap-5 ">
+            <DialogTitle>
+              <VisuallyHidden>Password Reset</VisuallyHidden>
+            </DialogTitle>
             <DialogHeader className="">
               <div className="w-[377px] h-[364px] relative">
                 <Image
@@ -74,15 +77,13 @@ export const DialogConatiner = ({
                       <Button
                         variant="outline"
                         type="submit"
-                        className="rounded-full  bg-[#FFFFFF] hover:opacity-none w-[44px] h-[44px]"
-                      >
+                        className="rounded-full  bg-[#FFFFFF] hover:opacity-none w-[44px] h-[44px]">
                         -
                       </Button>
                       <p className="text-[18px] font-semibold">1</p>
                       <Button
                         variant="outline"
-                        className="rounded-full  bg-[#FFFFFF] hover:opacity-none w-[44px] h-[44px]"
-                      >
+                        className="rounded-full  bg-[#FFFFFF] hover:opacity-none w-[44px] h-[44px]">
                         +
                       </Button>
                     </div>

@@ -3,11 +3,11 @@ import { UserModel } from "../../model/users.model";
 import nodemailer from "nodemailer";
 import { OtpModel, Otppopulated } from "../../model/otp.model";
 import bcrypt from "bcrypt";
+
 export const SendOtp = async (req: Request, res: Response) => {
   const { email } = req.body;
 
   const isEmailExisted = await UserModel.findOne({ email });
-
 
   if (!isEmailExisted) {
     res.status(401).send(" Wrong Doesn't exist");

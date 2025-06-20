@@ -8,6 +8,7 @@ import axios from "axios";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { useSearchParams } from "next/navigation";
+import { Emailform } from "@/app/signup/_components/Emailform";
 const validationSchema = Yup.object({
   password: Yup.string()
     .required("baihgui bn")
@@ -41,13 +42,16 @@ export const CreatePassword = () => {
           password: values.password,
           confirm: values.confirmpassword,
         }));
-        const response = await axios.post("http://localhost:8000/password", {
-          password: values.password,
-          email: container.confirmpassword,
-          token: token,
-        });
+        const response = await axios.post(
+          "http://localhost:8000/updatePassword",
+          {
+            password: values.password,
+            confirm: container.confirmpassword,
+            token: token,
+          }
+        );
 
-        console.log("end bn ", response);
+        // console.log("end bn ", response);
         router.push("/");
       } catch (error) {
         console.log("errr", error);
@@ -105,8 +109,7 @@ export const CreatePassword = () => {
             </div>
             <Link href={"/login"}>
               <Button
-                className="bg-[gray]"
-                type="submit"
+                className="bg-[gray] w-[370px]"
                 disabled={isButtonDisabled}>
                 Create password
               </Button>
