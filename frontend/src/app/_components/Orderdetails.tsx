@@ -165,7 +165,7 @@ export const Orderdetails = () => {
                             <Plus />
                           </Button>
                         </div>
-                        <p className="font-bold">{el.price}</p>
+                        <p className="font-bold">${el.price}</p>
                       </div>
                     </div>
                   </div>
@@ -194,13 +194,13 @@ export const Orderdetails = () => {
                   <p className="font-normal text-[16px] text-[#71717A]">
                     Items
                   </p>
-                  <p>25</p>
+                  <p>$25</p>
                 </div>
                 <div className="w-[439px] flex flex-row justify-between pr-7">
                   <p className="font-normal text-[16px] text-[#71717A]">
                     Shipping
                   </p>
-                  <p></p>
+                  <p>$0.99</p>
                 </div>
               </div>
               <div className="w-[439px] flex flex-col pr-7 gap-2">
@@ -209,7 +209,7 @@ export const Orderdetails = () => {
                   <p className="font-normal text-[16px] text-[#71717A]">
                     Total
                   </p>
-                  <p>{total}</p>
+                  <p>${total}</p>
                 </div>
               </div>
               <Button
