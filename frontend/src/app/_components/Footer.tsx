@@ -5,6 +5,9 @@ import { Button } from "@/components/ui/button";
 import Image from "next/image";
 import Link from "next/link";
 import { motion } from "framer-motion";
+
+import { ShoppingCart } from "lucide-react";
+
 export const Footer = () => {
   const titles = [
     "Fresh fast delivered",
@@ -13,6 +16,7 @@ export const Footer = () => {
     "Fresh fast delivered",
     "Fresh fast delivered",
   ];
+
   return (
     <div className="w-full h-[755px] bg-[#18181B] flex justify-center flex-col gap-10 ">
       <div className="w-full h-[92px] bg-[#EF4444] flex flex-row gap-10 justify-center items-center">

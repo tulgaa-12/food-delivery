@@ -1,6 +1,6 @@
 "use client";
 import { motion } from "framer-motion";
-import { Button } from "@/components/ui/button";
+
 import { DialogConatiner } from "./Dialog";
 import { prototype } from "events";
 type FoodProps = {
@@ -14,19 +14,21 @@ type FoodProps = {
 type PropsType = {
   foods: Record<string, FoodProps[]>;
 };
+
 export const MenuContainer = ({ foods }: PropsType) => {
   const keys = Object.keys(foods);
 
   return (
-    <div className="w-full h-full pt-[200px] pb-[100px]">
+    <div className="w-full h-full pt-[200px] pb-[100px]  ">
       {keys.map((el) => (
         <div
           key={el}
-          className="flex flex-col   justify-center item-center gap-[88px]">
-          <h2 className=" text-[white] font-semibold text-[30px] ml-35">
+          className="flex flex-col   justify-center item-center gap-[88px]"
+        >
+          <h2 className=" text-[white] font-semibold text-[30px] ml-15">
             {el}
           </h2>
-          <div className="flex  flex-wrap gap-6 w-full justify-center 2xl:grid 2xl:grid-cols-3 2xl:ml-35">
+          <div className="flex  flex-wrap gap-6 w-full justify-center 2xl:grid 2xl:grid-cols-3  2xl:ml-10">
             {foods[el].slice(0, 6).map((food, index) => (
               <motion.div
                 key={food._id}
@@ -37,11 +39,13 @@ export const MenuContainer = ({ foods }: PropsType) => {
                   scale: 1.03,
                   boxShadow: "0px 8px 20px rgba(0,0,0,0.2)",
                 }}
-                className=" 2xl:w-[540px] 2xl:h-[480px]  w-[397px] h-[342px]">
+                className=" 2xl:w-[540px] 2xl:h-[480px]  w-[397px] h-[342px]"
+              >
                 <div
                   key={food._id}
                   className="flex flex-col justify-center  w-[397px] h-[342px] shadow-lg rounded-[20px] bg-[#FFFFFF] p-5 
-              2xl:w-[540px] 2xl:h-[480px] 2xl:rounded-[30px] 2xl:flex 2xl:gap-2  shadow-2xl">
+              2xl:w-[540px] 2xl:h-[480px] 2xl:rounded-[30px] 2xl:flex 2xl:gap-2  shadow-2xl"
+                >
                   <img
                     src={food.image}
                     alt={food.foodName}

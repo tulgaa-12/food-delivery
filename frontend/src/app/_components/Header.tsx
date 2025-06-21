@@ -6,6 +6,18 @@ import {
   ShoppingCart,
   User,
 } from "lucide-react";
+import { Orderdetails } from "./Orderdetails";
+type FoodProps = {
+  foodName: string;
+  image: string;
+  ingredients: string;
+  price: number;
+  _id: string;
+};
+
+type PropsType = {
+  foods: Record<string, FoodProps[]>;
+};
 
 export const Header = () => {
   return (
@@ -34,12 +46,7 @@ export const Header = () => {
               <p className="text-[12px] text-[#71717A]">Add Location</p>
               <ChevronRight />
             </Button>
-            <Button
-              variant="outline"
-              className="bg-[white] h-[36px] w-[36px] rounded-full"
-            >
-              <ShoppingCart />
-            </Button>
+            <Orderdetails />
             <Button
               variant="outline"
               className="bg-[#EF4444] h-[36px] w-[36px] rounded-full"
