@@ -73,15 +73,11 @@ export const DialogConatiner = ({
           <DialogTrigger asChild className="relative">
             <Button
               variant="outline"
-              className="bg-[white] text-[20px] text-[#EF4444] rounded-full w-[44px] h-[44px] absolute  right-10 bottom-35 2xl:bottom-50 z-index  "
-            >
+              className="bg-[white] text-[20px] text-[#EF4444] rounded-full w-[44px] h-[44px] absolute  right-10 bottom-35 2xl:bottom-50 z-index  ">
               <Plus />
             </Button>
           </DialogTrigger>
           <DialogContent className="w-full h-[412px] flex flex-row rounded-[20px] gap-5 w-[830px] h-[412px]">
-            <VisuallyHidden>
-              <DialogTitle>Password Reset</DialogTitle>
-            </VisuallyHidden>
             <DialogHeader className="">
               <div className="w-[377px] h-[364px] relative">
                 <Image
@@ -119,16 +115,14 @@ export const DialogConatiner = ({
                         variant="outline"
                         type="submit"
                         className="rounded-full  bg-[#FFFFFF] hover:opacity-none w-[44px] h-[44px]"
-                        onClick={() => handleQty("dec")}
-                      >
+                        onClick={() => handleQty("dec")}>
                         <Minus />
                       </Button>
                       <p className="text-[18px] font-semibold">{qty}</p>
                       <Button
                         variant="outline"
                         className="rounded-full  bg-[#FFFFFF] hover:opacity-none w-[44px] h-[44px]"
-                        onClick={() => handleQty("inc")}
-                      >
+                        onClick={() => handleQty("inc")}>
                         <Plus />
                       </Button>
                     </div>
@@ -144,8 +138,7 @@ export const DialogConatiner = ({
                         _id: _id,
                         qty: 1,
                       })
-                    }
-                  >
+                    }>
                     Add to cart
                   </Button>
                 </div>

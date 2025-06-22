@@ -21,6 +21,11 @@ export const Signout = () => {
         if (decoded.email) {
           setEmail(decoded.email);
         }
+        if (decoded.exp && Date.now() >= decoded.exp * 1000) {
+          localStorage.removeItem("token");
+          window.location.href = "/login";
+          return;
+        }
       } catch (error) {
         console.error("Token decode error", error);
       }

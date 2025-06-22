@@ -1,8 +1,7 @@
 "use client";
-
+import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Soup } from "lucide-react";
-import { useState, useEffect } from "react";
 
 type Order = {
   id: string;
@@ -16,7 +15,7 @@ type Order = {
   status: "Pending" | "Delivered";
 };
 
-export const Orderitems = () => {
+export const OrderTab = () => {
   const [orders, setOrders] = useState<Order[]>([]);
 
   useEffect(() => {
@@ -74,8 +73,8 @@ export const Orderitems = () => {
                 <span className="text-gray-600">x{item.qty}</span>
               </div>
             ))}
-            <p> {el.date}</p>
-            <p className="text-[#71717A] truncate"> {el.address}</p>
+            <p>{el.date}</p>
+            <p className="text-[#71717A] truncate">{el.address}</p>
           </div>
         </div>
       ))}
