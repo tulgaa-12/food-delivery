@@ -65,8 +65,7 @@ export const Forgotpassword = ({ nextStep }: all) => {
             <Button
               className="bg-[gray]"
               type="submit"
-              disabled={isButtonDisabled}
-            >
+              disabled={isButtonDisabled}>
               Send link
             </Button>
           </div>

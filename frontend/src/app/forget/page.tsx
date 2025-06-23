@@ -10,6 +10,8 @@ const ForgetHome = () => {
   const [step, setStep] = useState(0);
   const Stepper = components[step];
   const [input, setInput] = useState("");
+  const [email, setEmail] = useState("");
+
   const [container, setContainer] = useState({
     email: "",
     password: "",
