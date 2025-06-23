@@ -21,6 +21,11 @@ export const Signout = () => {
         if (decoded.email) {
           setEmail(decoded.email);
         }
+        if (decoded.exp && Date.now() >= decoded.exp * 1000) {
+          localStorage.removeItem("token");
+          window.location.href = "/login";
+          return;
+        }
       } catch (error) {
         console.error("Token decode error", error);
       }
@@ -38,7 +43,8 @@ export const Signout = () => {
     <Draggable nodeRef={nodeRef}>
       <div
         ref={nodeRef}
-        className="w-[188px] h-[104px] shadow-lg bg-[#FFFFFF] rounded-xl flex flex-col justify-center items-center cursor-move">
+        className="w-[188px] h-[104px] shadow-lg bg-[#FFFFFF] rounded-xl flex flex-col justify-center items-center cursor-move"
+      >
         <div className="text-sm font-medium text-gray-700"> {email}</div>
         <Button onClick={handleSignout} className="bg-[#F4F4F5] text-[black]">
           Sign Out
