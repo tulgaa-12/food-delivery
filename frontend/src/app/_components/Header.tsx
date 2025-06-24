@@ -7,6 +7,7 @@ import {
   User,
 } from "lucide-react";
 import { Orderdetails } from "./Orderdetails";
+import Link from "next/link";
 type FoodProps = {
   foodName: string;
   image: string;
@@ -47,12 +48,14 @@ export const Header = () => {
               <ChevronRight />
             </Button>
             <Orderdetails />
-            <Button
-              variant="outline"
-              className="bg-[#EF4444] h-[36px] w-[36px] rounded-full"
-            >
-              <User />
-            </Button>
+            <Link href={"/admin"}>
+              <Button
+                variant="outline"
+                className="bg-[#EF4444] h-[36px] w-[36px] rounded-full"
+              >
+                <User />
+              </Button>
+            </Link>
           </div>
         </div>
       </div>

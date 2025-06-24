@@ -3,7 +3,7 @@ import { Truck } from "lucide-react";
 
 export const MenuContainer = () => {
   return (
-    <div className="w-[205px] h-full flex-col items-center gap-10 bg-[white]">
+    <div className="w-[205px] h-[1025px] flex-col items-center gap-10 bg-[white]">
       <div className="w-[205px] flex flex-col items-center gap-7 mt-10">
         <div className="w-[146px] h-[44px] flex flex-row gap-[10px]   ">
           <img src="togoo.jpg" alt="signup visual" className="" />

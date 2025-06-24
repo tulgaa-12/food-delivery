@@ -33,8 +33,6 @@ type UnitDataType = {
 const storageKey = "cartItems";
 
 const saveUnitData = (food: UnitDataType) => {
-  if (typeof window === "undefined") return;
-
   const existingData = localStorage.getItem(storageKey);
   const cartItems: UnitDataType[] = existingData
     ? JSON.parse(existingData)
