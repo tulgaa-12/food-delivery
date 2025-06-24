@@ -15,7 +15,7 @@ import {
 } from "@/components/ui/sheet";
 import { Orderitems } from "./OrderItems";
 import { Empty } from "./Empty";
-
+import axios from "axios";
 import { DialogSuccess } from "./DialogSucces";
 import { AneedLogin } from "./AneedLogin";
 type FoodProps = {
@@ -44,36 +44,38 @@ export const Orderdetails = () => {
     validationSchema: Yup.object({
       location: Yup.string().trim().required("Location is required"),
     }),
-    onSubmit: (values) => {
-      const existingOrders = JSON.parse(localStorage.getItem("orders") || "[]");
-
+    onSubmit: async (values) => {
       const token = localStorage.getItem("token");
       if (!token) {
         setDialogopen(true);
         return;
       }
 
-      const newOrder = {
-        id: Date.now().toString(),
-        price: total,
-        date: new Date().toLocaleString(),
-        address: values.location,
-        items: item.map((i) => ({
-          name: i.foodName,
-          qty: i.qty,
-        })),
-        status: "Pending",
-      };
-      localStorage.setItem(
-        "orders",
-        JSON.stringify([...existingOrders, newOrder])
-      );
-      localStorage.removeItem("cartItems");
-      setItems([]);
+      try {
+        const payload = {
+          totalPrice: total,
+          address: values.location,
+          foodOrderItems: item.map((i) => ({
+            food: i._id,
+            quantity: i.qty,
+          })),
+        };
 
-      setActiveTab("order");
-      setSuccess(true);
-      console.log("Order placed:", newOrder);
+        console.log("Sending order payload:", payload);
+
+        await axios.post("http://localhost:8000/createOrder", payload, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+
+        localStorage.removeItem("cartItems");
+        setItems([]);
+        setActiveTab("order");
+        setSuccess(true);
+      } catch (error) {
+        console.error("Order failed:", error);
+      }
     },
   });
 
@@ -115,9 +117,9 @@ export const Orderdetails = () => {
 
       <SheetContent className="w-[535px] bg-[#18181B33] overflow-x-auto">
         <SheetHeader>
-          <div className="w-[471px] h-[36px] flex flex-row gap-3">
+          <div className="w-[471px] h-[36px] flex flex-row gap-3 text-[white]">
             <ShoppingCart className="text-[20px]" />
-            <h4 className="font-semibold text-[20px]">Order detail</h4>
+            <h4 className="font-semibold text-[20px] ">Order detail</h4>
           </div>
         </SheetHeader>
 
@@ -130,8 +132,7 @@ export const Orderdetails = () => {
                 activeTab === "Cart"
                   ? "bg-[#EF4444] text-white"
                   : "bg-white text-black"
-              }`}
-            >
+              }`}>
               Cart
             </Button>
             <Button
@@ -141,8 +142,7 @@ export const Orderdetails = () => {
                 activeTab === "order"
                   ? "bg-[#EF4444] text-white"
                   : "bg-white text-black"
-              }`}
-            >
+              }`}>
               Order
             </Button>
           </div>
@@ -151,12 +151,9 @@ export const Orderdetails = () => {
             <form
               id="form"
               onSubmit={formik.handleSubmit}
-              className="w-[471px] h-full rounded-[20px] bg-white shadow-lg p-4"
-            >
+              className="w-[471px] h-full rounded-[20px] bg-white shadow-lg p-4">
               <div className="w-[439px] flex flex-col gap-5">
-                <h4 className="text-[20px] text-[#71717A] font-semibold">
-                  My cart
-                </h4>
+                <h4 className="text-[20px]  font-semibold">My cart</h4>
 
                 {item.length === 0 ? (
                   <Empty />
@@ -182,8 +179,7 @@ export const Orderdetails = () => {
                               type="button"
                               variant="outline"
                               className="rounded-full w-[36px] h-[36px] text-[#EF4444] border-[#EF4444]"
-                              onClick={() => removeItem(el._id)}
-                            >
+                              onClick={() => removeItem(el._id)}>
                               <X />
                             </Button>
                           </div>
@@ -192,16 +188,14 @@ export const Orderdetails = () => {
                               <Button
                                 type="button"
                                 variant="link"
-                                onClick={() => handleQty(el._id, "dec")}
-                              >
+                                onClick={() => handleQty(el._id, "dec")}>
                                 <Minus />
                               </Button>
                               <p>{el.qty}</p>
                               <Button
                                 type="button"
                                 variant="link"
-                                onClick={() => handleQty(el._id, "inc")}
-                              >
+                                onClick={() => handleQty(el._id, "inc")}>
                                 <Plus />
                               </Button>
                             </div>
@@ -272,8 +266,7 @@ export const Orderdetails = () => {
                 form="form"
                 variant="outline"
                 onClick={() => formik.handleSubmit()}
-                className="bg-[#EF4444] text-white text-[14px] font-semibold h-[44px] rounded-full"
-              >
+                className="bg-[#EF4444] text-white text-[14px] font-semibold h-[44px] rounded-full">
                 Checkout
               </Button>
             </div>

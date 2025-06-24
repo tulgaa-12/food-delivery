@@ -17,6 +17,7 @@ type FoodOrderModelType = {
   totalPrice: number;
   foodOrderItems: FoodOrderItemModelType[];
   status: FoodOrderStatusEnum;
+  address: string;
 };
 
 const FoodOrderItemSchema = new Schema<FoodOrderItemModelType>(
@@ -32,6 +33,7 @@ const FoodOrderSchema = new Schema<FoodOrderModelType>(
     user: { type: Schema.Types.ObjectId, required: true },
     totalPrice: { type: Number, required: true },
     foodOrderItems: { type: [FoodOrderItemSchema], required: true },
+    address: { type: String, required: true },
     status: {
       type: String,
       enum: Object.values(FoodOrderStatusEnum),
