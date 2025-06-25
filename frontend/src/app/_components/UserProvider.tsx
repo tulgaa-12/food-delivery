@@ -11,6 +11,7 @@ import axios from "axios";
 import { useRouter } from "next/navigation";
 type UserData = {
   userId: string;
+  isAdmin: boolean;
 };
 
 type AuthContextType = {
@@ -32,10 +33,12 @@ export const AuthProvider = ({ children }: PropsWithChildren) => {
       const response = await axios.post("http://localhost:8000/verify", {
         token: token,
       });
-      setUser({ userId: response.data.destruck.userId });
+      setUser({
+        userId: response.data.destruck.userId,
+        isAdmin: response.data.destruck.isAdmin,
+      });
     } catch (err) {
       console.log(err);
-      // router.push("/login");
     }
   };
 
@@ -44,8 +47,6 @@ export const AuthProvider = ({ children }: PropsWithChildren) => {
     const token = localStorage.getItem("token");
     if (token) {
       tokenChecker(token);
-    } else {
-      // router.push("/login");
     }
   }, []);
 

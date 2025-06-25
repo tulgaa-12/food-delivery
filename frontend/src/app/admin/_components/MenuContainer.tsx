@@ -1,7 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { Truck } from "lucide-react";
 
-export const MenuContainer = () => {
+export const MenuButton = () => {
   return (
     <div className="w-[205px] h-[1025px] flex-col items-center gap-10 bg-[white]">
       <div className="w-[205px] flex flex-col items-center gap-7 mt-10">

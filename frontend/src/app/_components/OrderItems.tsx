@@ -25,7 +25,7 @@ export const Orderitems = () => {
     const fetchOrders = async () => {
       const token = localStorage.getItem("token");
       if (!token) return;
-
+      console.log("Token:", token);
       try {
         const res = await axios.get("http://localhost:8000/getOrders", {
           headers: {

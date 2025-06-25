@@ -2,7 +2,7 @@
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
 import { ChangeStateDialog } from "./ChangeStateDialog";
-
+import axios from "axios";
 import * as React from "react";
 
 import { Button } from "@/components/ui/button";
@@ -25,15 +25,26 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-
-// export type Payment = {
-//   id: string;
-//   amount: number;
-//   status: "pending" | "processing" | "success" | "failed";
-//   email: string;
-// };
+import { useEffect, useState } from "react";
 
 export const HeaderContainer = () => {
+  const [order, setOrder] = useState([]);
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    const getAdminOrder = async () => {
+      const { data } = await axios.get(
+        "http://localhost:8000/Admin/getAllOrder",
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      setOrder(data.orders);
+    };
+    getAdminOrder();
+  }, []);
+  // console.log(data.order);
   return (
     <div className="w-full pr-20">
       <div className="flex  items-center p-4">
@@ -62,10 +73,10 @@ export const HeaderContainer = () => {
                   </TableHead>
                 </div>
               </TableHead>
-              <Input
+              {/* <Input
                 type="date"
-                className="w-[300px] h-[36px] rounded-full ml-280"
-              />
+                className="w-[300px] h-[36px] rounded-full  ml-150 2xl:ml-280"
+              /> */}
               <ChangeStateDialog />
             </TableRow>
           </TableHeader>
@@ -102,36 +113,40 @@ export const HeaderContainer = () => {
               </TableCell>
             </TableRow>
 
-            <TableRow>
-              <TableCell className="h-24 text-center">
-                <div className="flex flex-row justify-between">
-                  <div className="w-[56px] h-[52px] flex justify-center items-center">
-                    <Checkbox className="" />
-                  </div>
-                  <div className="w-[48px] h-[52px] flex  items-center">
-                    <p></p>
-                  </div>
-                  <div className="flex items-center w-[213px] ">
-                    <p className="text-[#71717A]"></p>
-                  </div>
-                  <div className="flex items-center w-[213px] ">
-                    <p className="text-[#71717A]"></p>
-                  </div>
-                  <div className="w-[160px] flex items-center">
-                    <p className="text-[#71717A]"></p>
-                  </div>
-                  <div className="w-[160px] flex items-center">
-                    <p className="text-[#71717A]"></p>
-                  </div>
-                  <div className="flex items-center w-[213px] ">
-                    <p className="text-[#71717A]"></p>
-                  </div>
-                  <div className="w-[160px] flex items-center">
-                    <p className="text-[#71717A]"></p>
-                  </div>
-                </div>
-              </TableCell>
-            </TableRow>
+            {order.map((el, index) => {
+              return (
+                <TableRow key={index}>
+                  <TableCell className="h-24 text-center">
+                    <div className="flex flex-row justify-between">
+                      <div className="w-[56px] h-[52px] flex justify-center items-center">
+                        <Checkbox className="" />
+                      </div>
+                      <div className="w-[48px] h-[52px] flex  items-center">
+                        <p></p>
+                      </div>
+                      <div className="flex items-center w-[213px] ">
+                        <p className="text-[#71717A]"></p>
+                      </div>
+                      <div className="flex items-center w-[213px] ">
+                        <p className="text-[#71717A]"></p>
+                      </div>
+                      <div className="w-[160px] flex items-center">
+                        <p className="text-[#71717A]"></p>
+                      </div>
+                      <div className="w-[160px] flex items-center">
+                        <p className="text-[#71717A]"></p>
+                      </div>
+                      <div className="flex items-center w-[213px] ">
+                        <p className="text-[#71717A]"></p>
+                      </div>
+                      <div className="w-[160px] flex items-center">
+                        <p className="text-[#71717A]"></p>
+                      </div>
+                    </div>
+                  </TableCell>
+                </TableRow>
+              );
+            })}
           </TableBody>
         </Table>
       </div>

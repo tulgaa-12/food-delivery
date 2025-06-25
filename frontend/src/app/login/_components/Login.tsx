@@ -6,7 +6,7 @@ import { useFormik } from "formik";
 import * as Yup from "yup";
 import axios from "axios";
 import { Label } from "@/components/ui/label";
-import { useState, useEffect } from "react";
+import { useState, useEffect, use } from "react";
 import { Checkbox } from "@/components/ui/checkbox";
 import { redirect, useRouter } from "next/navigation";
 import Link from "next/link";
@@ -33,6 +33,7 @@ const validtionschema = Yup.object({
 });
 export const Login = () => {
   const [errorMessage, setErrorMessage] = useState("");
+  const [isLoading, setIsLoading] = useState(true);
   const router = useRouter();
   const { user, tokenChecker } = useAuth();
   const formik = useFormik({
@@ -53,10 +54,15 @@ export const Login = () => {
         });
 
         localStorage.setItem("token", response.data.token);
-        await tokenChecker(response.data.token);
-        redirect("/");
-        // console.log(response, "end bain");
-        // router.push("/");
+        const isAdmin = await tokenChecker(response.data.token);
+        // redirect("/");
+        // await tokenChecker(response.data.token);
+        // redirect("/");
+        // if (isAdmin === true) {
+        // redirect("/Admin/getAllOrder");
+        // } else {
+        // redirect("/");
+        // }
       } catch (error: any) {
         console.log("Signup error:", error);
         setErrorMessage(
@@ -67,8 +73,12 @@ export const Login = () => {
   });
 
   useEffect(() => {
-    if (user) {
-      router.push("/");
+    if (user?.userId) {
+      if (user?.isAdmin) {
+        router.push("/admin");
+      } else {
+        router.push("/");
+      }
     }
   }, [user, router]);
 
@@ -134,7 +144,7 @@ export const Login = () => {
 
         <div className="flex flex-row justify-center gap-2">
           <p className="text-[16px] text-[#71717A] font-normal">
-            Already have an account?
+            Don’t have an account?
           </p>
           <Link href={"/signup"}>
             <p className="text-[16px] text-[#2563EB] cursor-pointer">Sign Up</p>

@@ -9,6 +9,7 @@ import { UserRouter } from "./router/user.router";
 import { CategoryRouter } from "./router/category.router";
 import { FoodRouter } from "./router/food-router";
 import { OrderRouter } from "./router/order.router";
+import { AdminRouter } from "./router/admin.router";
 
 const app = express();
 app.use(cors());
@@ -31,6 +32,8 @@ app.use(UserRouter);
 app.use(CategoryRouter);
 app.use(FoodRouter);
 app.use(OrderRouter);
+app.use(AdminRouter);
+
 app.listen(8000, () => {
   console.log("running on http://localhost:8000");
 });

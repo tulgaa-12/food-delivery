@@ -16,40 +16,6 @@ import {
 import { Textarea } from "@/components/ui/textarea";
 
 export const Dishes = () => {
-  // const [file, setFile] = useState();
-  // const [url, setUrl] = useState();
-  // const uploadImage = async () => {
-  //   if (!file) {
-  //     return null;
-  //   }
-
-  //   const formdata = new FormData();
-  //   formdata.append("file", file);
-  //   formdata.append("upload_preset", "fooddelivery");
-
-  //   try {
-  //     const response = await fetch(
-  //       `https://api.cloudinary.com/v1_1/dk7udsfgs/image/upload`,
-  //       {
-  //         method: "POST",
-  //         body: formdata,
-  //       }
-  //     );
-  //     const result = await response.json();
-
-  //     console.log(result.secure_url);
-  //   } catch (error: unknown) {
-  //     return { error: "failed to upload image" };
-  //   }
-  // };
-  // const fileHanlder = (event: any) => {
-  //   setFile(event.target.files[0]);
-
-  //   const usrl = URL.createObjectURL(event?.target.files[0]);
-
-  //   setUrl(url);
-  // };
-
   return (
     <div className="w-full h-full flex justify-center ">
       <div className=" w-[472px] h-[596px] rounded-sm shadow-xl flex items-center justify-center flex-col gap-7 mt-[200px]">
@@ -110,8 +76,7 @@ export const Dishes = () => {
         <div className="w-[424px] flex flex-row justify-between">
           <Button
             variant="outline"
-            className="w-[48px] h-[40px] border border-[#EF444480]"
-          ></Button>
+            className="w-[48px] h-[40px] border border-[#EF444480]"></Button>
           <Button className="w-[126px] h-[40px]">Save changes</Button>
         </div>
 
