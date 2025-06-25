@@ -16,7 +16,10 @@ export const ChangeStateDialog = () => {
   return (
     <AlertDialog>
       <AlertDialogTrigger asChild>
-        <Button variant="outline" className="w-[213px] h-[36px] rounded-full">
+        <Button
+          variant="outline"
+          className="w-[213px] h-[36px] rounded-full bg-[black] text-[white] ml-auto mr-[20px]"
+        >
           Change delivery state
         </Button>
       </AlertDialogTrigger>

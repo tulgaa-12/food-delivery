@@ -2,7 +2,7 @@
 import { motion } from "framer-motion";
 
 import { DialogConatiner } from "./Dialog";
-import { prototype } from "events";
+
 type FoodProps = {
   foodName: string;
   image: string;
