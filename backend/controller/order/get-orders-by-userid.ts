@@ -16,7 +16,7 @@ export const getOrderByUserid = async (_req: Request, res: Response) => {
           model: "Foods",
         },
       })
-      .populate("USER");
+      .populate("user");
     res.status(200).send({ message: allOrdersByUserId });
   } catch (err) {
     res.status(400).send({ message: "Cannot get Orders" });

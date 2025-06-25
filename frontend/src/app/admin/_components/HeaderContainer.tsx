@@ -29,22 +29,31 @@ import { useEffect, useState } from "react";
 
 export const HeaderContainer = () => {
   const [order, setOrder] = useState([]);
+
   useEffect(() => {
     const token = localStorage.getItem("token");
-    const getAdminOrder = async () => {
-      const { data } = await axios.get(
-        "http://localhost:8000/Admin/getAllOrder",
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
-      setOrder(data.orders);
+
+    const fetchOrders = async () => {
+      try {
+        const { data } = await axios.get(
+          "http://localhost:8000/Admin/getAllOrder",
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+        console.log("Orders from backend:", data.orders);
+        setOrder(data.orders);
+      } catch (error) {
+        console.error("Failed to fetch orders", error);
+      }
     };
-    getAdminOrder();
+
+    if (token) {
+      fetchOrders();
+    }
   }, []);
-  // console.log(data.order);
   return (
     <div className="w-full pr-20">
       <div className="flex  items-center p-4">
@@ -113,7 +122,7 @@ export const HeaderContainer = () => {
               </TableCell>
             </TableRow>
 
-            {order.map((el, index) => {
+            {order?.map((el: Record<string, string>, index) => {
               return (
                 <TableRow key={index}>
                   <TableCell className="h-24 text-center">
@@ -125,22 +134,24 @@ export const HeaderContainer = () => {
                         <p></p>
                       </div>
                       <div className="flex items-center w-[213px] ">
-                        <p className="text-[#71717A]"></p>
+                        <p className="text-[#71717A]">{index + 1}</p>
                       </div>
                       <div className="flex items-center w-[213px] ">
                         <p className="text-[#71717A]"></p>
                       </div>
                       <div className="w-[160px] flex items-center">
-                        <p className="text-[#71717A]"></p>
+                        <p className="text-[#71717A]">{el.user}</p>
                       </div>
                       <div className="w-[160px] flex items-center">
-                        <p className="text-[#71717A]"></p>
+                        <p className="text-[#71717A]">{el.totalPrice}</p>
                       </div>
-                      <div className="flex items-center w-[213px] ">
-                        <p className="text-[#71717A]"></p>
+                      <div className="flex items-center w-[213px]  ">
+                        <p className="text-[#71717A] flex ">
+                          {el.address.slice(0, 30)}
+                        </p>
                       </div>
                       <div className="w-[160px] flex items-center">
-                        <p className="text-[#71717A]"></p>
+                        <p className="text-[#71717A]">{el.status}</p>
                       </div>
                     </div>
                   </TableCell>
