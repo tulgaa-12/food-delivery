@@ -44,7 +44,7 @@ export const MenuContainer = ({ foods }: PropsType) => {
                 <div
                   key={food._id}
                   className="flex flex-col justify-center  w-[397px] h-[342px] shadow-lg rounded-[20px] bg-[#FFFFFF] p-5 
-              2xl:w-[540px] 2xl:h-[480px] 2xl:rounded-[30px] 2xl:flex 2xl:gap-2  shadow-2xl"
+              2xl:w-[540px] 2xl:h-[480px] 2xl:rounded-[30px] 2xl:flex 2xl:gap-2  2xl:shadow-2xl"
                 >
                   <img
                     src={food.image}

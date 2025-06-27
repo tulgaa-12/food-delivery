@@ -68,7 +68,8 @@ export const Orderitems = () => {
       {orders.map((el, index) => (
         <div
           key={index}
-          className="w-full flex flex-col gap-3 border-b border-[#E4E4E7] pb-4">
+          className="w-full flex flex-col gap-3 border-b border-[#E4E4E7] pb-4"
+        >
           <div className="flex justify-between items-center">
             <div className="flex gap-2 text-[16px] font-bold">
               <p>${el.totalPrice}</p>
@@ -80,7 +81,8 @@ export const Orderitems = () => {
                 el.status === "Pending"
                   ? "border-[#10B981] text-[#EF4444]"
                   : "border-[#EF4444] "
-              }`}>
+              }`}
+            >
               {el.status}
             </Button>
           </div>

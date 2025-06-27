@@ -76,7 +76,7 @@ export const DialogConatiner = ({
               <Plus />
             </Button>
           </DialogTrigger>
-          <DialogContent className="w-full h-[412px] flex flex-row rounded-[20px] gap-5 w-[830px] h-[412px]">
+          <DialogContent className="w-full h-[412px] flex flex-row rounded-[20px] gap-5 lg:w-[830px] lg:h-[412px]">
             <DialogHeader className="">
               <div className="w-[377px] h-[364px] relative">
                 <Image

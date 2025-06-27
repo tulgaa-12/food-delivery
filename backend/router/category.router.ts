@@ -6,4 +6,4 @@ import { getCategory } from "../controller/category/get-gategory";
 export const CategoryRouter = Router();
 
 CategoryRouter.post("/addCategory", TokenChecker, createCategory);
-CategoryRouter.post("/getCategory",TokenChecker,getCategory)
+CategoryRouter.get("/getCategory", TokenChecker, getCategory);

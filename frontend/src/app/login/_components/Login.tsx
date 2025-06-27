@@ -55,14 +55,6 @@ export const Login = () => {
 
         localStorage.setItem("token", response.data.token);
         const isAdmin = await tokenChecker(response.data.token);
-        // redirect("/");
-        // await tokenChecker(response.data.token);
-        // redirect("/");
-        // if (isAdmin === true) {
-        // redirect("/Admin/getAllOrder");
-        // } else {
-        // redirect("/");
-        // }
       } catch (error: any) {
         console.log("Signup error:", error);
         setErrorMessage(
