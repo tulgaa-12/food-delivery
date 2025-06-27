@@ -1,66 +1,129 @@
 "use client";
+
+import { useEffect, useState } from "react";
+import axios from "axios";
 import { Badge } from "@/components/ui/badge";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
-import axios from "axios";
-import { useEffect, useState } from "react";
-import { Realcreatecategory } from "./Realcreatecategory";
+import {
+  Dialog,
+  DialogTrigger,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogFooter,
+} from "@/components/ui/dialog";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Plus } from "lucide-react";
 
 type CategoryType = {
+  _id: string;
   categoryName: string;
   createdAt: string;
   updatedAt: string;
 };
 
 export const CreateCategory = () => {
-  const [category, setCategory] = useState<CategoryType[]>([]);
-  const [toglee, setToglee] = useState<"darsan" | "daraagui">("darsan");
-  useEffect(() => {
-    const categoryfind = async () => {
-      const token = window?.localStorage?.getItem("token");
+  const [categories, setCategories] = useState<CategoryType[]>([]);
+  const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
+  const [dialogOpen, setDialogOpen] = useState(false);
+  const [categoryName, setCategoryName] = useState(""); // input value
 
-      try {
-        const res: any = await axios.get("http://localhost:8000/getCategory", {
+  const fetchCategories = async () => {
+    const token = localStorage.getItem("token");
+    try {
+      const res = await axios.get("http://localhost:8000/getCategory", {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      setCategories(res.data.category);
+    } catch (err) {
+      console.error("Fetch алдаа:", err);
+    }
+  };
+
+  useEffect(() => {
+    fetchCategories();
+  }, []);
+
+  const handleAddCategory = async () => {
+    const token = localStorage.getItem("token");
+    try {
+      const res = await axios.post(
+        "http://localhost:8000/addCategory",
+        { categoryName },
+        {
           headers: {
             Authorization: `Bearer ${token}`,
           },
-        });
-        setCategory(res.data.category);
-        console.log(res.data, "asd");
-      } catch (error) {
-        console.log(error, "errrrr");
-      }
-    };
-    categoryfind();
-  }, []);
+        }
+      );
+      setCategories((prev) => [...prev, res.data.category]);
+      setCategoryName("");
+      setDialogOpen(false);
+    } catch (err) {
+      console.error("Нэмэх үед алдаа:", err);
+    }
+  };
 
   return (
-    <div className="h-[236px] w-full flex flex-col gap-5">
+    <div className="w-full flex flex-col gap-5">
       <Avatar className="ml-auto">
         <AvatarImage src="https://github.com/shadcn.png" />
         <AvatarFallback>CN</AvatarFallback>
       </Avatar>
-      <div className="h-[176px]  w-full flex flex-col shadow-2xl rounded-xl">
-        <h4 className="text-[20px] font-semibold p-5">Dishes category</h4>
-        <div className="h-[84px] flex justify-center gap-5 pr-10 pl-5 ">
-          {category.map((el, index) => {
-            return (
-              <div>
-                <Button
-                  key={index}
-                  variant="outline"
-                  className="  h-[36px] rounded-full flex gap-2 "
-                >
-                  {el.categoryName}
 
-                  <Badge className="rounded-full">
-                    {el.categoryName.length}
-                  </Badge>
-                </Button>
+      <div className="w-full flex flex-col shadow-2xl rounded-xl">
+        <h4 className="text-[20px] font-semibold p-5">Dishes category</h4>
+
+        <div className="flex flex-wrap gap-5 px-5 pb-5">
+          <Button variant="outline" className="h-[36px] rounded-full">
+            All Dishes
+          </Button>
+
+          {categories.map((el) => (
+            <Button
+              key={el._id}
+              onClick={() => setSelectedCategory(el.categoryName)}
+              variant="outline"
+              className="h-[36px] rounded-full flex gap-2">
+              {el.categoryName}
+              <Badge className="rounded-full">{el.categoryName.length}</Badge>
+            </Button>
+          ))}
+
+          <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
+            <DialogTrigger asChild>
+              <Button
+                type="button"
+                variant="outline"
+                className="rounded-full h-[36px] w-[36px] bg-[#EF4444] text-white">
+                <Plus />
+              </Button>
+            </DialogTrigger>
+
+            <DialogContent className="sm:max-w-[425px]">
+              <DialogHeader>
+                <DialogTitle>Add new category</DialogTitle>
+              </DialogHeader>
+
+              <div className="grid gap-4 py-4">
+                <Label htmlFor="categoryName">Category name</Label>
+                <Input
+                  id="categoryName"
+                  value={categoryName}
+                  onChange={(e) => setCategoryName(e.target.value)}
+                  placeholder="Type category name..."
+                />
               </div>
-            );
-          })}
-          <Realcreatecategory />
+
+              <DialogFooter>
+                <Button onClick={handleAddCategory}>Add category</Button>
+              </DialogFooter>
+            </DialogContent>
+          </Dialog>
         </div>
       </div>
     </div>
