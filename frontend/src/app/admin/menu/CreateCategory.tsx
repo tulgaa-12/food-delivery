@@ -12,6 +12,8 @@ import {
   DialogHeader,
   DialogTitle,
   DialogFooter,
+  DialogDescription,
+  DialogClose,
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -26,9 +28,9 @@ type CategoryType = {
 
 export const CreateCategory = () => {
   const [categories, setCategories] = useState<CategoryType[]>([]);
-  const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
+
   const [dialogOpen, setDialogOpen] = useState(false);
-  const [categoryName, setCategoryName] = useState(""); // input value
+  const [categoryName, setCategoryName] = useState("");
 
   const fetchCategories = async () => {
     const token = localStorage.getItem("token");
@@ -84,14 +86,44 @@ export const CreateCategory = () => {
           </Button>
 
           {categories.map((el) => (
-            <Button
-              key={el._id}
-              onClick={() => setSelectedCategory(el.categoryName)}
-              variant="outline"
-              className="h-[36px] rounded-full flex gap-2">
-              {el.categoryName}
-              <Badge className="rounded-full">{el.categoryName.length}</Badge>
-            </Button>
+            <Dialog key={el._id}>
+              <form>
+                <DialogTrigger asChild>
+                  <Button
+                    variant="outline"
+                    className="h-[36px] rounded-full flex gap-2"
+                  >
+                    {el.categoryName}
+                    <Badge className="rounded-full">
+                      {el.categoryName.length}
+                    </Badge>
+                  </Button>
+                </DialogTrigger>
+                <DialogContent className="sm:max-w-[425px]">
+                  <DialogHeader>
+                    <DialogTitle>Add new category</DialogTitle>
+                    <DialogDescription></DialogDescription>
+                  </DialogHeader>
+                  <div className="grid gap-4">
+                    <div className="grid gap-3">
+                      <Label htmlFor="name-1">Category name</Label>
+                      <Input
+                        id="name-1"
+                        name="name"
+                        placeholder="Type category name..."
+                      />
+                    </div>
+                    <div className="grid gap-3"></div>
+                  </div>
+                  <DialogFooter>
+                    <DialogClose asChild>
+                      <Button variant="outline">Cancel</Button>
+                    </DialogClose>
+                    <Button type="submit">Add category</Button>
+                  </DialogFooter>
+                </DialogContent>
+              </form>
+            </Dialog>
           ))}
 
           <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
@@ -99,7 +131,8 @@ export const CreateCategory = () => {
               <Button
                 type="button"
                 variant="outline"
-                className="rounded-full h-[36px] w-[36px] bg-[#EF4444] text-white">
+                className="rounded-full h-[36px] w-[36px] bg-[#EF4444] text-white"
+              >
                 <Plus />
               </Button>
             </DialogTrigger>

@@ -19,7 +19,7 @@ export const MenuContainer = ({ foods }: PropsType) => {
   const keys = Object.keys(foods);
 
   return (
-    <div className="w-full h-full pt-[200px] pb-[100px]  ">
+    <div className="w-full h-full pt-[200px] pb-[100px]  flex flex-col gap-10 ">
       {keys.map((el) => (
         <div
           key={el}

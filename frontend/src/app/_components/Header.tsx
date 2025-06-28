@@ -8,6 +8,18 @@ import {
 } from "lucide-react";
 import { Orderdetails } from "./Orderdetails";
 import Link from "next/link";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog";
+import { Textarea } from "@/components/ui/textarea";
 type FoodProps = {
   foodName: string;
   image: string;
@@ -38,15 +50,39 @@ export const Header = () => {
             </div>
           </div>
           <div className="flex flex-row gap-10 mr-[150px]">
-            <Button
-              variant="outline"
-              className="bg-[white] w-[251px] h-[36px] rounded-full  "
-            >
-              <MapPin className="text-[#EF4444]" />
-              <p className="text-[#EF4444] text-[12px]">Delivery address:</p>
-              <p className="text-[12px] text-[#71717A]">Add Location</p>
-              <ChevronRight />
-            </Button>
+            <AlertDialog>
+              <AlertDialogTrigger asChild>
+                <Button
+                  variant="outline"
+                  className="bg-[white] w-[251px] h-[36px] rounded-full  "
+                >
+                  <MapPin className="text-[#EF4444]" />
+                  <p className="text-[#EF4444] text-[12px]">
+                    Delivery address:
+                  </p>
+                  <p className="text-[12px] text-[#71717A]">Add Location</p>
+                  <ChevronRight />
+                </Button>
+              </AlertDialogTrigger>
+              <AlertDialogContent className="w-[502px] h-[288px]">
+                <AlertDialogHeader>
+                  <AlertDialogTitle className="text-[24px]">
+                    Please write your delivery address!
+                  </AlertDialogTitle>
+
+                  <AlertDialogDescription></AlertDialogDescription>
+                  <Textarea
+                    className="h-[80px]"
+                    placeholder="Please share your complete address"
+                  />
+                </AlertDialogHeader>
+
+                <AlertDialogFooter>
+                  <AlertDialogCancel>Cancel</AlertDialogCancel>
+                  <AlertDialogAction>Deliver Here</AlertDialogAction>
+                </AlertDialogFooter>
+              </AlertDialogContent>
+            </AlertDialog>
             <Orderdetails />
             <Link href={"/admin"}>
               <Button
