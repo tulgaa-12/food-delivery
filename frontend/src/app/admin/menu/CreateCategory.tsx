@@ -28,7 +28,7 @@ type CategoryType = {
 
 export const CreateCategory = () => {
   const [categories, setCategories] = useState<CategoryType[]>([]);
-
+  const [selectedFoods, setSelectedFoods] = useState<any[]>([]);
   const [dialogOpen, setDialogOpen] = useState(false);
   const [categoryName, setCategoryName] = useState("");
 
@@ -40,6 +40,7 @@ export const CreateCategory = () => {
           Authorization: `Bearer ${token}`,
         },
       });
+
       setCategories(res.data.category);
     } catch (err) {
       console.error("Fetch алдаа:", err);
@@ -49,6 +50,23 @@ export const CreateCategory = () => {
   useEffect(() => {
     fetchCategories();
   }, []);
+
+  const handleCategoryClick = async (categoryName: string) => {
+    const token = localStorage.getItem("token");
+    try {
+      const res = await axios.get(
+        `http://localhost:8000/getFood/${categoryName}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      setSelectedFoods(res.data.foods);
+    } catch (err) {
+      console.error("Food татах алдаа:", err);
+    }
+  };
 
   const handleAddCategory = async () => {
     const token = localStorage.getItem("token");
@@ -86,44 +104,14 @@ export const CreateCategory = () => {
           </Button>
 
           {categories.map((el) => (
-            <Dialog key={el._id}>
-              <form>
-                <DialogTrigger asChild>
-                  <Button
-                    variant="outline"
-                    className="h-[36px] rounded-full flex gap-2"
-                  >
-                    {el.categoryName}
-                    <Badge className="rounded-full">
-                      {el.categoryName.length}
-                    </Badge>
-                  </Button>
-                </DialogTrigger>
-                <DialogContent className="sm:max-w-[425px]">
-                  <DialogHeader>
-                    <DialogTitle>Add new category</DialogTitle>
-                    <DialogDescription></DialogDescription>
-                  </DialogHeader>
-                  <div className="grid gap-4">
-                    <div className="grid gap-3">
-                      <Label htmlFor="name-1">Category name</Label>
-                      <Input
-                        id="name-1"
-                        name="name"
-                        placeholder="Type category name..."
-                      />
-                    </div>
-                    <div className="grid gap-3"></div>
-                  </div>
-                  <DialogFooter>
-                    <DialogClose asChild>
-                      <Button variant="outline">Cancel</Button>
-                    </DialogClose>
-                    <Button type="submit">Add category</Button>
-                  </DialogFooter>
-                </DialogContent>
-              </form>
-            </Dialog>
+            <Button
+              key={el._id}
+              variant="outline"
+              onClick={() => handleCategoryClick(el.categoryName)}
+              className="h-[36px] rounded-full flex gap-2">
+              {el.categoryName}
+              <Badge className="rounded-full">{el.categoryName.length}</Badge>
+            </Button>
           ))}
 
           <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
@@ -131,8 +119,7 @@ export const CreateCategory = () => {
               <Button
                 type="button"
                 variant="outline"
-                className="rounded-full h-[36px] w-[36px] bg-[#EF4444] text-white"
-              >
+                className="rounded-full h-[36px] w-[36px] bg-[#EF4444] text-white">
                 <Plus />
               </Button>
             </DialogTrigger>
