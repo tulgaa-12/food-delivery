@@ -58,7 +58,7 @@ export const CreatePassword = ({ container, setContainer }: AllProps) => {
             email: container.email,
           }
         );
-        // setContainer((prev) => ({ ...prev, email: container.email }));
+        setContainer((prev) => ({ ...prev, email: container.email }));
         router.push("/login");
       } catch (error) {
         console.log("err", error);
