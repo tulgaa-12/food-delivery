@@ -25,7 +25,11 @@ const ForgetHome = () => {
   };
   return (
     <div className="ml-[50px] 2xl:flex 2xl:justify-center">
-      <Stepper nextStep={nextStep} />
+      <Stepper
+        nextStep={nextStep}
+        container={container}
+        setContainer={setContainer}
+      />
     </div>
   );
 };

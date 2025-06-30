@@ -68,7 +68,6 @@ export const Emailform = ({ nextStep, container, setContainer }: all) => {
     onBlur: formik.handleBlur,
   };
 
-  // const isButtonDisabled = !formik.errors.email;
   const isButtonDisabled =
     !formik.values.email || !!formik.errors.email || !formik.touched.email;
 
@@ -96,7 +95,8 @@ export const Emailform = ({ nextStep, container, setContainer }: all) => {
             <Button
               className="bg-[gray]"
               disabled={isButtonDisabled}
-              type="submit">
+              type="submit"
+            >
               Let's Go
             </Button>
           </div>
@@ -117,5 +117,3 @@ export const Emailform = ({ nextStep, container, setContainer }: all) => {
     </div>
   );
 };
-
-// /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i;

@@ -8,6 +8,21 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { useState } from "react";
 import { Eye, EyeOff } from "lucide-react";
 
+type AllProps = {
+  container: {
+    email: string;
+    password: string;
+    confirm: string;
+  };
+  setContainer: React.Dispatch<
+    React.SetStateAction<{
+      email: string;
+      password: string;
+      confirm: string;
+    }>
+  >;
+};
+
 const validationSchema = Yup.object({
   password: Yup.string()
     .required("Password is required")
@@ -21,7 +36,7 @@ const validationSchema = Yup.object({
     .oneOf([Yup.ref("password")], "Passwords do not match"),
 });
 
-export const CreatePassword = () => {
+export const CreatePassword = ({ container, setContainer }: AllProps) => {
   const router = useRouter();
   const params = useSearchParams();
   const email = params.get("email");
@@ -31,6 +46,7 @@ export const CreatePassword = () => {
 
   const formik = useFormik({
     initialValues: {
+      email: container.email,
       password: "",
       confirmpassword: "",
     },
@@ -41,6 +57,7 @@ export const CreatePassword = () => {
           password: values.password,
           email: email,
         });
+        setContainer((prev) => ({ ...prev, email: container.email }));
         router.push("/login");
       } catch (error) {
         console.log("err", error);
@@ -82,7 +99,8 @@ export const CreatePassword = () => {
                 onClick={() => setShowPassword(!showPassword)}
                 className="absolute right-3 top-[10px] text-gray-500"
                 tabIndex={-1}
-                aria-label={showPassword ? "Hide password" : "Show password"}>
+                aria-label={showPassword ? "Hide password" : "Show password"}
+              >
                 {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
               </button>
               {formik.touched.password && formik.errors.password && (
@@ -112,7 +130,8 @@ export const CreatePassword = () => {
                   showConfirmPassword
                     ? "Hide confirm password"
                     : "Show confirm password"
-                }>
+                }
+              >
                 {showConfirmPassword ? <EyeOff size={18} /> : <Eye size={18} />}
               </button>
               {formik.touched.confirmpassword &&
@@ -126,7 +145,8 @@ export const CreatePassword = () => {
             <Button
               type="submit"
               className="bg-[gray] w-[370px]"
-              disabled={isButtonDisabled}>
+              disabled={isButtonDisabled}
+            >
               Create password
             </Button>
           </div>

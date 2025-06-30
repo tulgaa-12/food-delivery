@@ -107,8 +107,9 @@ export const CreateCategory = () => {
             <Button
               key={el._id}
               variant="outline"
-              onClick={() => handleCategoryClick(el.categoryName)}
-              className="h-[36px] rounded-full flex gap-2">
+              // onClick={() => handleCategoryClick(el.categoryName)}
+              className="h-[36px] rounded-full flex gap-2"
+            >
               {el.categoryName}
               <Badge className="rounded-full">{el.categoryName.length}</Badge>
             </Button>
@@ -119,7 +120,8 @@ export const CreateCategory = () => {
               <Button
                 type="button"
                 variant="outline"
-                className="rounded-full h-[36px] w-[36px] bg-[#EF4444] text-white">
+                className="rounded-full h-[36px] w-[36px] bg-[#EF4444] text-white"
+              >
                 <Plus />
               </Button>
             </DialogTrigger>
