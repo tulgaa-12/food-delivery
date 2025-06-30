@@ -12,15 +12,28 @@ import axios from "axios";
 import * as Yup from "yup";
 type all = {
   nextStep: () => void;
+  container: {
+    email: string;
+    password: string;
+    confirm: string;
+  };
+  setContainer: React.Dispatch<
+    React.SetStateAction<{
+      email: string;
+      password: string;
+      confirm: string;
+    }>
+  >;
 };
 
 const validtionschema = Yup.object({
   otp: Yup.string().required("OTP код шаардлагатай"),
 });
-export const Resend = ({ nextStep }: all) => {
+export const Resend = ({ nextStep, container, setContainer }: all) => {
   const formik = useFormik({
     initialValues: {
       otp: "",
+      email: container.email,
     },
     validationSchema: validtionschema,
     onSubmit: async (values) => {
@@ -33,7 +46,7 @@ export const Resend = ({ nextStep }: all) => {
             code: values.otp,
           }
         );
-
+        setContainer((prev) => ({ ...prev, email: values.email }));
         console.log("responess ", response);
         nextStep();
       } catch (error) {
@@ -71,8 +84,7 @@ export const Resend = ({ nextStep }: all) => {
                 maxLength={6}
                 pattern={REGEXP_ONLY_DIGITS_AND_CHARS}
                 value={formik.values.otp}
-                onChange={(value) => formik.setFieldValue("otp", value)}
-              >
+                onChange={(value) => formik.setFieldValue("otp", value)}>
                 <InputOTPGroup>
                   <InputOTPSlot index={0} />
                   <InputOTPSlot index={1} />

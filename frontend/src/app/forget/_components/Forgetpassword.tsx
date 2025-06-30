@@ -6,18 +6,29 @@ import * as Yup from "yup";
 import axios from "axios";
 type all = {
   nextStep: () => void;
+  container: {
+    email: string;
+    password: string;
+    confirm: string;
+  };
+  setContainer: React.Dispatch<
+    React.SetStateAction<{
+      email: string;
+      password: string;
+      confirm: string;
+    }>
+  >;
 };
 
-// NEXT_PUBLIC_API_URL = "https://food-delivery-1-6g0i.onrender.com";
 const validtionschema = Yup.object({
   email: Yup.string()
     .email("хүчингүй имэйл байна")
     .required("Имэйл заавал шаардлагатай"),
 });
-export const Forgotpassword = ({ nextStep }: all) => {
+export const Forgotpassword = ({ nextStep, container, setContainer }: all) => {
   const formik = useFormik({
     initialValues: {
-      email: "",
+      email: container.email,
     },
     validationSchema: validtionschema,
     onSubmit: async (values) => {
@@ -30,7 +41,7 @@ export const Forgotpassword = ({ nextStep }: all) => {
             email: values.email,
           }
         );
-
+        setContainer((prev) => ({ ...prev, email: values.email }));
         console.log("responess ", response);
         nextStep();
       } catch (error) {
@@ -69,8 +80,7 @@ export const Forgotpassword = ({ nextStep }: all) => {
             <Button
               className="bg-[gray]"
               type="submit"
-              disabled={isButtonDisabled}
-            >
+              disabled={isButtonDisabled}>
               Send link
             </Button>
           </div>

@@ -38,9 +38,6 @@ const validationSchema = Yup.object({
 
 export const CreatePassword = ({ container, setContainer }: AllProps) => {
   const router = useRouter();
-  const params = useSearchParams();
-  const email = params.get("email");
-
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
@@ -52,15 +49,16 @@ export const CreatePassword = ({ container, setContainer }: AllProps) => {
     },
     validationSchema: validationSchema,
     onSubmit: async (values) => {
+      console.log("Sending email:", container.email);
       try {
         await axios.put(
           "https://food-delivery-1-6g0i.onrender.com/updatePassword",
           {
             password: values.password,
-            email: email,
+            email: container.email,
           }
         );
-        setContainer((prev) => ({ ...prev, email: container.email }));
+        // setContainer((prev) => ({ ...prev, email: container.email }));
         router.push("/login");
       } catch (error) {
         console.log("err", error);
@@ -102,8 +100,7 @@ export const CreatePassword = ({ container, setContainer }: AllProps) => {
                 onClick={() => setShowPassword(!showPassword)}
                 className="absolute right-3 top-[10px] text-gray-500"
                 tabIndex={-1}
-                aria-label={showPassword ? "Hide password" : "Show password"}
-              >
+                aria-label={showPassword ? "Hide password" : "Show password"}>
                 {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
               </button>
               {formik.touched.password && formik.errors.password && (
@@ -133,8 +130,7 @@ export const CreatePassword = ({ container, setContainer }: AllProps) => {
                   showConfirmPassword
                     ? "Hide confirm password"
                     : "Show confirm password"
-                }
-              >
+                }>
                 {showConfirmPassword ? <EyeOff size={18} /> : <Eye size={18} />}
               </button>
               {formik.touched.confirmpassword &&
@@ -148,8 +144,7 @@ export const CreatePassword = ({ container, setContainer }: AllProps) => {
             <Button
               type="submit"
               className="bg-[gray] w-[370px]"
-              disabled={isButtonDisabled}
-            >
+              disabled={isButtonDisabled}>
               Create password
             </Button>
           </div>
