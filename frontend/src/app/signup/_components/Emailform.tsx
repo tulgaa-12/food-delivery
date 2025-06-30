@@ -41,9 +41,12 @@ export const Emailform = ({ nextStep, container, setContainer }: all) => {
     onSubmit: async (values) => {
       console.log("sending", values.email);
       try {
-        const response = await axios.post("http://localhost:8000/check-email", {
-          email: values.email,
-        });
+        const response = await axios.post(
+          "https://food-delivery-1-6g0i.onrender.com/check-email",
+          {
+            email: values.email,
+          }
+        );
         console.log(response.data.message, "end bn shuu");
 
         setContainer((prev) => ({ ...prev, email: values.email }));

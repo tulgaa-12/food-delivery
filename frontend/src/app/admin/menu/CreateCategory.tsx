@@ -35,11 +35,14 @@ export const CreateCategory = () => {
   const fetchCategories = async () => {
     const token = localStorage.getItem("token");
     try {
-      const res = await axios.get("http://localhost:8000/getCategory", {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
+      const res = await axios.get(
+        "https://food-delivery-1-6g0i.onrender.com/getCategory",
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
 
       setCategories(res.data.category);
     } catch (err) {
@@ -55,7 +58,7 @@ export const CreateCategory = () => {
     const token = localStorage.getItem("token");
     try {
       const res = await axios.get(
-        `http://localhost:8000/getFood/${categoryName}`,
+        `https://food-delivery-1-6g0i.onrender.com/getFood/${categoryName}`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -72,7 +75,7 @@ export const CreateCategory = () => {
     const token = localStorage.getItem("token");
     try {
       const res = await axios.post(
-        "http://localhost:8000/addCategory",
+        "https://food-delivery-1-6g0i.onrender.com/addCategory",
         { categoryName },
         {
           headers: {

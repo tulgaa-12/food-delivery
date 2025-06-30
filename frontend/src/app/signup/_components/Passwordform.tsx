@@ -63,10 +63,13 @@ export const Passwordform = ({
           confirm: values.confirmPassword,
         }));
 
-        const response = await axios.post("http://localhost:8000/signup", {
-          password: values.password,
-          email: container.email,
-        });
+        const response = await axios.post(
+          "https://food-delivery-1-6g0i.onrender.com/signup",
+          {
+            password: values.password,
+            email: container.email,
+          }
+        );
 
         console.log(response, "end bainshuu dee");
         console.log("received email from container:", container.email);

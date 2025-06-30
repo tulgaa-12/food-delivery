@@ -53,10 +53,13 @@ export const CreatePassword = ({ container, setContainer }: AllProps) => {
     validationSchema: validationSchema,
     onSubmit: async (values) => {
       try {
-        await axios.put("http://localhost:8000/updatePassword", {
-          password: values.password,
-          email: email,
-        });
+        await axios.put(
+          "https://food-delivery-1-6g0i.onrender.com/updatePassword",
+          {
+            password: values.password,
+            email: email,
+          }
+        );
         setContainer((prev) => ({ ...prev, email: container.email }));
         router.push("/login");
       } catch (error) {

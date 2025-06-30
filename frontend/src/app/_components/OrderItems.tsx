@@ -27,11 +27,14 @@ export const Orderitems = () => {
       if (!token) return;
       console.log("Token:", token);
       try {
-        const res = await axios.get("http://localhost:8000/getOrders", {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
+        const res = await axios.get(
+          "https://food-delivery-1-6g0i.onrender.com/getOrders",
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
 
         setOrders(res.data.message);
       } catch (error) {

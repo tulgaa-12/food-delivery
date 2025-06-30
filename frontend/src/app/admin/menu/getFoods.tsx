@@ -40,11 +40,14 @@ export const Food = ({ foods }: PropsType) => {
       const token = window?.localStorage?.getItem("token");
 
       try {
-        const res: any = await axios.get("http://localhost:8000/getFood", {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
+        const res: any = await axios.get(
+          "https://food-delivery-1-6g0i.onrender.com/getFood",
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
         setFood(res.data.foods);
         console.log(res.data, "asd");
       } catch (error) {

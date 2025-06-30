@@ -48,10 +48,13 @@ export const Login = () => {
       console.log("sending", values.email);
 
       try {
-        const response = await axios.post("http://localhost:8000/login", {
-          email: values.email,
-          password: values.password,
-        });
+        const response = await axios.post(
+          "https://food-delivery-1-6g0i.onrender.com/login",
+          {
+            email: values.email,
+            password: values.password,
+          }
+        );
 
         localStorage.setItem("token", response.data.token);
         const isAdmin = await tokenChecker(response.data.token);

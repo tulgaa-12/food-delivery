@@ -27,9 +27,12 @@ export const Resend = ({ nextStep }: all) => {
       console.log("sending", values.otp);
 
       try {
-        const response = await axios.post("http://localhost:8000/checkOtp", {
-          code: values.otp,
-        });
+        const response = await axios.post(
+          "https://food-delivery-1-6g0i.onrender.com/checkOtp",
+          {
+            code: values.otp,
+          }
+        );
 
         console.log("responess ", response);
         nextStep();
@@ -68,7 +71,8 @@ export const Resend = ({ nextStep }: all) => {
                 maxLength={6}
                 pattern={REGEXP_ONLY_DIGITS_AND_CHARS}
                 value={formik.values.otp}
-                onChange={(value) => formik.setFieldValue("otp", value)}>
+                onChange={(value) => formik.setFieldValue("otp", value)}
+              >
                 <InputOTPGroup>
                   <InputOTPSlot index={0} />
                   <InputOTPSlot index={1} />

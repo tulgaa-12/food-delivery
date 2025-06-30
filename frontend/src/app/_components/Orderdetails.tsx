@@ -63,11 +63,15 @@ export const Orderdetails = () => {
 
         console.log("Sending order payload:", payload);
 
-        await axios.post("http://localhost:8000/createOrder", payload, {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
+        await axios.post(
+          "https://food-delivery-1-6g0i.onrender.com/createOrder",
+          payload,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
 
         localStorage.removeItem("cartItems");
         setItems([]);
@@ -132,7 +136,8 @@ export const Orderdetails = () => {
                 activeTab === "Cart"
                   ? "bg-[#EF4444] text-white"
                   : "bg-white text-black"
-              }`}>
+              }`}
+            >
               Cart
             </Button>
             <Button
@@ -142,7 +147,8 @@ export const Orderdetails = () => {
                 activeTab === "order"
                   ? "bg-[#EF4444] text-white"
                   : "bg-white text-black"
-              }`}>
+              }`}
+            >
               Order
             </Button>
           </div>
@@ -151,7 +157,8 @@ export const Orderdetails = () => {
             <form
               id="form"
               onSubmit={formik.handleSubmit}
-              className="w-[471px] h-full rounded-[20px] bg-white shadow-lg p-4">
+              className="w-[471px] h-full rounded-[20px] bg-white shadow-lg p-4"
+            >
               <div className="w-[439px] flex flex-col gap-5">
                 <h4 className="text-[20px]  font-semibold">My cart</h4>
 
@@ -179,7 +186,8 @@ export const Orderdetails = () => {
                               type="button"
                               variant="outline"
                               className="rounded-full w-[36px] h-[36px] text-[#EF4444] border-[#EF4444]"
-                              onClick={() => removeItem(el._id)}>
+                              onClick={() => removeItem(el._id)}
+                            >
                               <X />
                             </Button>
                           </div>
@@ -188,14 +196,16 @@ export const Orderdetails = () => {
                               <Button
                                 type="button"
                                 variant="link"
-                                onClick={() => handleQty(el._id, "dec")}>
+                                onClick={() => handleQty(el._id, "dec")}
+                              >
                                 <Minus />
                               </Button>
                               <p>{el.qty}</p>
                               <Button
                                 type="button"
                                 variant="link"
-                                onClick={() => handleQty(el._id, "inc")}>
+                                onClick={() => handleQty(el._id, "inc")}
+                              >
                                 <Plus />
                               </Button>
                             </div>
@@ -265,7 +275,8 @@ export const Orderdetails = () => {
                 type="submit"
                 variant="outline"
                 form="form"
-                className="bg-[#EF4444] text-white text-[14px] font-semibold h-[44px] rounded-full">
+                className="bg-[#EF4444] text-white text-[14px] font-semibold h-[44px] rounded-full"
+              >
                 Checkout
               </Button>
             </div>

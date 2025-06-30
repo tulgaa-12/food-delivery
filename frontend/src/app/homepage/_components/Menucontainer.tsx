@@ -21,7 +21,9 @@ export const MenuContainer = () => {
   useEffect(() => {
     const fetchFoods = async () => {
       try {
-        const res = await axios.get("http://localhost:8000/getFood");
+        const res = await axios.get(
+          "https://food-delivery-1-6g0i.onrender.com/getFood"
+        );
         console.log("Өгөгдөл:", res.data.foods);
         setFoods(res.data.foods);
         setLoading(false);
@@ -55,10 +57,12 @@ export const MenuContainer = () => {
                 whileHover={{
                   scale: 1.03,
                   boxShadow: "0px 8px 20px rgba(0,0,0,0.2)",
-                }}>
+                }}
+              >
                 <div
                   key={food._id}
-                  className="flex flex-col justify-center items-center gap-5 w-[397px] h-[342px] shadow-lg rounded-[20px] bg-[#FFFFFF] p-5">
+                  className="flex flex-col justify-center items-center gap-5 w-[397px] h-[342px] shadow-lg rounded-[20px] bg-[#FFFFFF] p-5"
+                >
                   <img
                     src={food.image}
                     alt={food.foodName}

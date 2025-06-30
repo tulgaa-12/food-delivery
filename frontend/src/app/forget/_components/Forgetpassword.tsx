@@ -8,6 +8,7 @@ type all = {
   nextStep: () => void;
 };
 
+// NEXT_PUBLIC_API_URL = "https://food-delivery-1-6g0i.onrender.com";
 const validtionschema = Yup.object({
   email: Yup.string()
     .email("хүчингүй имэйл байна")
@@ -23,9 +24,12 @@ export const Forgotpassword = ({ nextStep }: all) => {
       console.log("sending", values.email);
 
       try {
-        const response = await axios.post("http://localhost:8000/email", {
-          email: values.email,
-        });
+        const response = await axios.post(
+          "https://food-delivery-1-6g0i.onrender.com/email",
+          {
+            email: values.email,
+          }
+        );
 
         console.log("responess ", response);
         nextStep();
@@ -65,7 +69,8 @@ export const Forgotpassword = ({ nextStep }: all) => {
             <Button
               className="bg-[gray]"
               type="submit"
-              disabled={isButtonDisabled}>
+              disabled={isButtonDisabled}
+            >
               Send link
             </Button>
           </div>
